@@ -57,8 +57,7 @@
   justify-content: flex-end;
   padding: 110px 24px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.82)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.62)),
@@ -136,10 +135,7 @@ p {
 }
 
 .booking-panel {
-  position: absolute;
-  right: 50%;
-  bottom: -54px;
-  transform: translateX(50%);
+  position: relative;
   z-index: 2;
   display: grid;
   width: min(100%, 1180px);
@@ -925,7 +921,6 @@ p {
 
   .booking-panel {
     grid-template-columns: 1fr;
-    bottom: -98px;
   }
 
   .booking-panel label,
