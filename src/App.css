@@ -61,7 +61,7 @@
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.82)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.62)),
-    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=82');
+    url('./assets/1.jpeg');
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -313,7 +313,7 @@ p {
 }
 
 .room-card__image--suite {
-  background-image: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=82');
+  background-image: url('./assets/2.jpeg');
 }
 
 .room-card__image--lounge {
@@ -321,7 +321,7 @@ p {
 }
 
 .room-card__image--event {
-  background-image: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=82');
+  background-image: url('./assets/4.jpeg');
 }
 
 .room-card__body {
@@ -602,6 +602,21 @@ p {
   background-image: url('https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=900&q=82');
 }
 
+.wedding-gallery__tile--coming-soon {
+  display: grid;
+  place-items: center;
+  background-color: #17130f;
+  background-image: none;
+}
+
+.wedding-gallery__tile--coming-soon span {
+  position: relative;
+  inset: auto;
+  padding: 10px 14px;
+  border: 1px solid rgba(216, 187, 124, 0.6);
+  color: #d8bb7c;
+}
+
 .about-section {
   padding: 116px 0;
   background: #f4efe7;
@@ -639,7 +654,7 @@ p {
 
 .about-images__main {
   inset: 0 13% 10% 0;
-  background-image: url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=82');
+  background-image: url('./assets/12.jpeg');
 }
 
 .about-images__small {
@@ -713,7 +728,7 @@ p {
 }
 
 .attraction-card--culture {
-  background-image: url('https://images.unsplash.com/photo-1559833064-6f4573ec1ac9?auto=format&fit=crop&w=900&q=82');
+  background-image: url('./assets/14.jpeg');
 }
 
 .attraction-card--dining {

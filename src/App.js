@@ -102,12 +102,12 @@ const amenityData = [
 ];
 
 const galleryTiles = [
-  { className: 'wedding-gallery__tile--one', label: 'Ceremony setting' },
-  { className: 'wedding-gallery__tile--two', label: 'Reception table' },
-  { className: 'wedding-gallery__tile--three', label: 'Bridal suite' },
-  { className: 'wedding-gallery__tile--four', label: 'Private dining' },
-  { className: 'wedding-gallery__tile--five', label: 'Evening gathering' },
-  { className: 'wedding-gallery__tile--six', label: 'Arrival moment' },
+  { className: 'wedding-gallery__tile--one', label: 'Coming Soon', comingSoon: true },
+  { className: 'wedding-gallery__tile--two', label: 'Coming Soon', comingSoon: true },
+  { className: 'wedding-gallery__tile--three', label: 'Coming Soon', comingSoon: true },
+  { className: 'wedding-gallery__tile--four', label: 'Coming Soon', comingSoon: true },
+  { className: 'wedding-gallery__tile--five', label: 'Coming Soon', comingSoon: true },
+  { className: 'wedding-gallery__tile--six', label: 'Coming Soon', comingSoon: true },
 ];
 
 const attractions = [
@@ -339,8 +339,8 @@ function App() {
             <motion.div className="wedding-gallery" aria-label="Wedding moments" variants={containerReveal}>
               {galleryTiles.map((tile) => (
                 <motion.div
-                  className={`wedding-gallery__tile ${tile.className}`}
-                  key={tile.label}
+                  className={`wedding-gallery__tile ${tile.className}${tile.comingSoon ? ' wedding-gallery__tile--coming-soon' : ''}`}
+                  key={tile.className}
                   variants={fadeUp}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.25 }}
