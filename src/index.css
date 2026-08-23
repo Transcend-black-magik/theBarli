@@ -2,10 +2,20 @@
   box-sizing: border-box;
 }
 
+:root {
+  --site-header-height: 88px;
+  --bottom-nav-height: 122px;
+  --section-safe-gap: 20px;
+}
+
 html {
   background: #000000;
   overflow-x: hidden;
   overflow-x: clip;
+  scroll-padding:
+    calc(var(--site-header-height) + var(--section-safe-gap))
+    0
+    calc(var(--bottom-nav-height) + var(--section-safe-gap));
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;

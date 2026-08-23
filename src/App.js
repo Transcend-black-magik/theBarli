@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion';
-import { BadgePercent, BedDouble, Heart, House, Menu as MenuIcon } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { BadgePercent, BedDouble, ChevronLeft, ChevronRight, Heart, House, Menu as MenuIcon } from 'lucide-react';
 import brandLogo from './assets/logo.png';
+import roomSlideOne from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.38 PM.jpeg';
+import roomSlideTwo from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.38 PM (1).jpeg';
+import roomSlideThree from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.39 PM.jpeg';
+import roomSlideFour from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.39 PM (1).jpeg';
 import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
@@ -57,24 +62,26 @@ const heroItem = {
   },
 };
 
-const roomData = [
+const roomSlides = [
   {
-    title: 'Signature En-Suite Residence',
-    imageClass: 'room-card__image--suite',
-    details: ['13 Bedrooms', 'En-suite privacy', 'Open-plan layouts'],
-    copy: 'Meticulously designed rooms tailored for exclusivity, scale, and quiet comfort in the heart of Abuja.',
+    image: roomSlideOne,
+    title: 'Prestige Room',
+    description: 'A living space with room to actually live in — not just sleep in.',
   },
   {
-    title: 'Private Lounge Sanctuary',
-    imageClass: 'room-card__image--lounge',
-    details: ['2 Private lounges', 'Guest-only access', 'Ergonomic workspaces'],
-    copy: 'Minimalist indoor living areas create a seamless rhythm between focused work and restorative rest.',
+    image: roomSlideTwo,
+    title: 'Prestige Room',
+    description: 'Comfortable, considered, and quietly private.',
   },
   {
-    title: 'Exclusive Event Residence',
-    imageClass: 'room-card__image--event',
-    details: ['Private gatherings', 'Bridal preparation', 'Tailored packages'],
-    copy: 'An elegant backdrop for intimate weddings, refined events, and moments that deserve privacy.',
+    image: roomSlideThree,
+    title: 'Prestige Room',
+    description: 'A bedroom designed with the same quiet attention to detail.',
+  },
+  {
+    image: roomSlideFour,
+    title: 'Deluxe Room',
+    description: 'Thoughtfully designed for comfort, calm and an effortless stay.',
   },
 ];
 
@@ -101,18 +108,8 @@ const amenityData = [
   },
 ];
 
-const galleryTiles = [
-  { className: 'wedding-gallery__tile--one', label: 'Coming Soon', comingSoon: true },
-  { className: 'wedding-gallery__tile--two', label: 'Coming Soon', comingSoon: true },
-  { className: 'wedding-gallery__tile--three', label: 'Coming Soon', comingSoon: true },
-  { className: 'wedding-gallery__tile--four', label: 'Coming Soon', comingSoon: true },
-  { className: 'wedding-gallery__tile--five', label: 'Coming Soon', comingSoon: true },
-  { className: 'wedding-gallery__tile--six', label: 'Coming Soon', comingSoon: true },
-];
-
 const attractions = [
   { title: 'Cultural Landmarks', imageClass: 'attraction-card--culture' },
-  { title: 'City Dining', imageClass: 'attraction-card--dining' },
   { title: 'Recreation', imageClass: 'attraction-card--city' },
 ];
 
@@ -125,9 +122,97 @@ const navItems = [
 ];
 
 function App() {
+  const [activeRoomSlide, setActiveRoomSlide] = useState(0);
+  const headerRef = useRef(null);
+  const bottomNavRef = useRef(null);
+  const roomSlideshowTouchStart = useRef(null);
+
+  useEffect(() => {
+    const slideTimer = window.setInterval(() => {
+      setActiveRoomSlide((currentSlide) => (currentSlide + 1) % roomSlides.length);
+    }, 5000);
+
+    return () => window.clearInterval(slideTimer);
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const updateViewportInsets = () => {
+      const headerHeight = Math.ceil(headerRef.current?.getBoundingClientRect().height ?? 0);
+      const bottomNavHeight = Math.ceil(bottomNavRef.current?.getBoundingClientRect().height ?? 0);
+
+      root.style.setProperty('--site-header-height', `${headerHeight}px`);
+      root.style.setProperty('--bottom-nav-height', `${bottomNavHeight}px`);
+    };
+
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateViewportInsets);
+    if (headerRef.current) observer?.observe(headerRef.current);
+    if (bottomNavRef.current) observer?.observe(bottomNavRef.current);
+    window.addEventListener('resize', updateViewportInsets);
+    updateViewportInsets();
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', updateViewportInsets);
+      root.style.removeProperty('--site-header-height');
+      root.style.removeProperty('--bottom-nav-height');
+    };
+  }, []);
+
+  const showPreviousRoomSlide = () => {
+    setActiveRoomSlide((currentSlide) => (currentSlide - 1 + roomSlides.length) % roomSlides.length);
+  };
+
+  const showNextRoomSlide = () => {
+    setActiveRoomSlide((currentSlide) => (currentSlide + 1) % roomSlides.length);
+  };
+
+  const handleRoomSlideshowTouchStart = (event) => {
+    roomSlideshowTouchStart.current = event.touches[0].clientX;
+  };
+
+  const handleRoomSlideshowTouchEnd = (event) => {
+    if (roomSlideshowTouchStart.current === null) return;
+
+    const horizontalDistance = event.changedTouches[0].clientX - roomSlideshowTouchStart.current;
+    if (Math.abs(horizontalDistance) > 40) {
+      horizontalDistance < 0 ? showNextRoomSlide() : showPreviousRoomSlide();
+    }
+    roomSlideshowTouchStart.current = null;
+  };
+
+  const handleBookingRequest = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const emailBody = [
+      `Name: ${formData.get('name')}`,
+      `Email: ${formData.get('email')}`,
+      `Preferred dates: ${formData.get('dates') || 'Not specified'}`,
+      `Guests: ${formData.get('guests')}`,
+      '',
+      'Stay details:',
+      formData.get('message') || 'Not specified',
+    ].join('\n');
+    const params = new URLSearchParams({ subject: 'Booking enquiry — The Barli', body: emailBody });
+
+    window.location.href = `mailto:bookings@thebarli.com?${params.toString()}`;
+  };
+
+  const handleNewsletterSignup = (event) => {
+    event.preventDefault();
+    const email = new FormData(event.currentTarget).get('newsletter-email');
+    const params = new URLSearchParams({
+      subject: 'Newsletter subscription — The Barli',
+      body: `Please add ${email} to The Barli newsletter.`,
+    });
+
+    window.location.href = `mailto:admin@thebarli.com?${params.toString()}`;
+  };
+
   return (
     <div className="barli-app">
       <motion.header
+        ref={headerRef}
         className="site-header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -170,39 +255,6 @@ function App() {
             </motion.p>
           </motion.div>
 
-          <motion.form
-            className="booking-panel"
-            aria-label="Check availability"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <label>
-              <span>Arrival</span>
-              <input type="date" aria-label="Arrival date" />
-            </label>
-            <label>
-              <span>Departure</span>
-              <input type="date" aria-label="Departure date" />
-            </label>
-            <label>
-              <span>Guests</span>
-              <select aria-label="Guests">
-                <option>1 Person</option>
-                <option>2 People</option>
-                <option>4 People</option>
-                <option>8 People</option>
-                <option>12+ People</option>
-              </select>
-            </label>
-            <label>
-              <span>Promo Code</span>
-              <input type="text" placeholder="Optional" aria-label="Promo code" />
-            </label>
-            <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              Check Availability
-            </motion.button>
-          </motion.form>
         </section>
 
         <motion.section
@@ -252,31 +304,49 @@ function App() {
               </div>
             </motion.div>
 
-            <motion.div className="rooms-grid" variants={containerReveal}>
-              {roomData.map((room) => (
-                <motion.article
-                  className="room-card"
-                  key={room.title}
-                  variants={fadeUp}
-                  whileHover={{ y: -10 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <div className={`room-card__image ${room.imageClass}`} aria-hidden="true" />
-                  <div className="room-card__body">
-                    <h3>{room.title}</h3>
-                    <ul>
-                      {room.details.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                    <p>{room.copy}</p>
-                    <div className="room-card__actions">
-                      <a href="#about">View Details</a>
-                      <a href="#home">Book</a>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
+            <motion.div
+              className="rooms-slideshow"
+              variants={fadeUp}
+              aria-roledescription="carousel"
+              aria-label="The Barli room slideshow"
+              onTouchStart={handleRoomSlideshowTouchStart}
+              onTouchEnd={handleRoomSlideshowTouchEnd}
+            >
+              <motion.img
+                key={roomSlides[activeRoomSlide].image}
+                className="rooms-slideshow__image"
+                src={roomSlides[activeRoomSlide].image}
+                alt={`${roomSlides[activeRoomSlide].title} at The Barli, Abuja`}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              />
+              <div className="rooms-slideshow__scrim" aria-hidden="true" />
+              <a className="rooms-slideshow__cta" href="https://wa.me/2349167000099" target="_blank" rel="noopener noreferrer">
+                Enquire on WhatsApp
+              </a>
+              <div className="rooms-slideshow__caption">
+                <h3>{roomSlides[activeRoomSlide].title}</h3>
+                <p>{roomSlides[activeRoomSlide].description}</p>
+              </div>
+              <button className="rooms-slideshow__arrow rooms-slideshow__arrow--previous" type="button" onClick={showPreviousRoomSlide} aria-label="Show previous room image">
+                <ChevronLeft aria-hidden="true" />
+              </button>
+              <button className="rooms-slideshow__arrow rooms-slideshow__arrow--next" type="button" onClick={showNextRoomSlide} aria-label="Show next room image">
+                <ChevronRight aria-hidden="true" />
+              </button>
+              <div className="rooms-slideshow__dots" aria-label="Choose a room image">
+                {roomSlides.map((slide, index) => (
+                  <button
+                    type="button"
+                    key={slide.image}
+                    className={index === activeRoomSlide ? 'is-active' : ''}
+                    onClick={() => setActiveRoomSlide(index)}
+                    aria-label={`Show room image ${index + 1}`}
+                    aria-current={index === activeRoomSlide ? 'true' : undefined}
+                  />
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         </motion.section>
@@ -324,7 +394,7 @@ function App() {
           viewport={viewport}
           variants={sectionReveal}
         >
-          <motion.div className="section-shell wedding-grid" variants={containerReveal}>
+          <motion.div className="section-shell wedding-grid wedding-grid--copy-only" variants={containerReveal}>
             <motion.div className="wedding-copy" variants={fadeUp}>
               <p className="quote-large">More than just a venue, Where Luxury meets Exclusivity.</p>
               <h2 id="weddings-title">Weddings at The Barli</h2>
@@ -332,22 +402,9 @@ function App() {
                 A sophisticated backdrop for your most important moments. We provide tailored packages
                 for intimate events, exclusive gatherings, and luxurious bridal preparations.
               </p>
-              <a className="primary-link" href="https://wa.me/234XXXXXXXXXX">
+              <a className="primary-link" href="mailto:Bookings@thebarli.com">
                 Enquire Now
               </a>
-            </motion.div>
-            <motion.div className="wedding-gallery" aria-label="Wedding moments" variants={containerReveal}>
-              {galleryTiles.map((tile) => (
-                <motion.div
-                  className={`wedding-gallery__tile ${tile.className}${tile.comingSoon ? ' wedding-gallery__tile--coming-soon' : ''}`}
-                  key={tile.className}
-                  variants={fadeUp}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <span>{tile.label}</span>
-                </motion.div>
-              ))}
             </motion.div>
           </motion.div>
         </motion.section>
@@ -364,7 +421,6 @@ function App() {
           <motion.div className="section-shell about-grid" variants={containerReveal}>
             <motion.div className="about-images" aria-hidden="true" variants={fadeUp}>
               <div className="about-images__main" />
-              <div className="about-images__small" />
             </motion.div>
             <motion.div className="about-copy" variants={fadeUp}>
               <p className="section-kicker">A Private Abuja Address</p>
@@ -414,6 +470,75 @@ function App() {
             </motion.div>
           </motion.div>
         </motion.section>
+
+        <motion.section
+          className="contact-section"
+          id="contact"
+          aria-labelledby="contact-title"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionReveal}
+        >
+          <motion.div className="section-shell contact-grid" variants={containerReveal}>
+            <motion.div className="contact-intro" variants={fadeUp}>
+              <p className="section-kicker">Private Stays, Thoughtfully Planned</p>
+              <h2 id="contact-title">Plan Your Stay</h2>
+              <p>
+                Tell us a little about your visit and our bookings team will help curate your stay at The Barli.
+              </p>
+            </motion.div>
+
+            <motion.form className="booking-request-form" onSubmit={handleBookingRequest} variants={fadeUp}>
+              <div className="booking-request-form__fields">
+                <label>
+                  <span>Full Name</span>
+                  <input name="name" type="text" autoComplete="name" required />
+                </label>
+                <label>
+                  <span>Email Address</span>
+                  <input name="email" type="email" autoComplete="email" required />
+                </label>
+                <label>
+                  <span>Preferred Date</span>
+                  <input name="dates" type="date" />
+                </label>
+                <label>
+                  <span>Guests</span>
+                  <select name="guests" defaultValue="2">
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3–4">3–4 Guests</option>
+                    <option value="5+">5+ Guests</option>
+                  </select>
+                </label>
+              </div>
+              <label className="booking-request-form__message">
+                <span>How can we help?</span>
+                <textarea name="message" rows="4" placeholder="Tell us about your stay, celebration, or special request." />
+              </label>
+              <button type="submit">Send Booking Request</button>
+            </motion.form>
+
+            <motion.aside className="contact-aside" variants={fadeUp}>
+              <div>
+                <p className="section-kicker">Stay In The Know</p>
+                <h3>Newsletter</h3>
+                <p>Receive updates from The Barli, including new experiences and curated offers.</p>
+                <form className="newsletter-form" onSubmit={handleNewsletterSignup}>
+                  <label className="visually-hidden" htmlFor="newsletter-email">Email Address</label>
+                  <input id="newsletter-email" name="newsletter-email" type="email" placeholder="Your email address" autoComplete="email" required />
+                  <button type="submit">Join</button>
+                </form>
+              </div>
+              <div className="support-card">
+                <p className="section-kicker">Need Assistance?</p>
+                <h3>Contact Support</h3>
+                <a href="mailto:admin@thebarli.com">admin@thebarli.com</a>
+              </div>
+            </motion.aside>
+          </motion.div>
+        </motion.section>
       </main>
 
       <motion.footer
@@ -425,10 +550,22 @@ function App() {
       >
         <img src={brandLogo} className="site-footer__mark" alt="" />
         <span>Copyright 2026 THE BARLI. ABUJA. ALL RIGHTS RESERVED.</span>
+        <div className="site-footer__socials" aria-label="Social media">
+          <a href="https://www.instagram.com/thebarlia.abuja?igsi=MXBwNHV1N2NnMXcxZQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="none" stroke="currentColor" strokeWidth="2" d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Zm8.75 4.25h.01M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/share/1JHVX1qVWv/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13.7 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10H7.8v3h2.7v8h3.2Z" />
+            </svg>
+          </a>
+        </div>
       </motion.footer>
 
       <motion.a
-        href="https://wa.me/234XXXXXXXXXX"
+        href="https://wa.me/2349167000099"
         className="whatsapp-float"
         target="_blank"
         rel="noopener noreferrer"
@@ -446,6 +583,7 @@ function App() {
       </motion.a>
 
       <motion.nav
+        ref={bottomNavRef}
         className="sticky-bottom-nav"
         aria-label="Primary"
         initial={{ y: 120 }}
