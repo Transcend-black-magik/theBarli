@@ -66,22 +66,18 @@ const roomSlides = [
   {
     image: roomSlideOne,
     title: 'Prestige Room',
-    description: 'A living space with room to actually live in — not just sleep in.',
   },
   {
     image: roomSlideTwo,
     title: 'Prestige Room',
-    description: 'Comfortable, considered, and quietly private.',
   },
   {
     image: roomSlideThree,
     title: 'Prestige Room',
-    description: 'A bedroom designed with the same quiet attention to detail.',
   },
   {
     image: roomSlideFour,
     title: 'Deluxe Room',
-    description: 'Thoughtfully designed for comfort, calm and an effortless stay.',
   },
 ];
 
@@ -241,17 +237,13 @@ function App() {
         <section className="hero" aria-labelledby="hero-title">
           <motion.div className="section-shell hero__content" variants={heroStagger} initial="hidden" animate="visible">
             <motion.p className="eyebrow" variants={heroItem}>
-              ABUJA / PRIVATE RESIDENCE
-            </motion.p>
-            <motion.p className="hero__residence-label" variants={heroItem}>
-              ABUJA / RESIDENCE
+              BOUTIQUE APARTMENTS, JABI, ABUJA
             </motion.p>
             <motion.h1 id="hero-title" variants={heroItem}>
-              Refined Urban Living
+              A Quieter Way To Stay
             </motion.h1>
             <motion.p className="hero__summary" variants={heroItem}>
-              A private luxury residence for discerning stays, intimate celebrations, and seamless
-              Abuja arrivals.
+              Private apartments. Thoughtful service. More space to settle in, right in the heart of Abuja.
             </motion.p>
           </motion.div>
 
@@ -322,12 +314,8 @@ function App() {
                 transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               />
               <div className="rooms-slideshow__scrim" aria-hidden="true" />
-              <a className="rooms-slideshow__cta" href="https://wa.me/2349167000099" target="_blank" rel="noopener noreferrer">
-                Enquire on WhatsApp
-              </a>
               <div className="rooms-slideshow__caption">
                 <h3>{roomSlides[activeRoomSlide].title}</h3>
-                <p>{roomSlides[activeRoomSlide].description}</p>
               </div>
               <button className="rooms-slideshow__arrow rooms-slideshow__arrow--previous" type="button" onClick={showPreviousRoomSlide} aria-label="Show previous room image">
                 <ChevronLeft aria-hidden="true" />
@@ -590,9 +578,6 @@ function App() {
         animate={{ y: 0 }}
         transition={{ delay: 0.7, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <a href="#weddings" className="check-availability-bar">
-          Check Availability &gt;
-        </a>
         <div className="nav-icons">
           {navItems.map((item, index) => (
             <motion.a
