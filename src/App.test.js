@@ -5,7 +5,7 @@ test('renders The Barli residence page', () => {
   render(<App />);
 
   expect(
-    screen.getByRole('heading', { name: /a quieter way to stay/i })
+    screen.getByRole('heading', { name: /boutique apartment abuja/i })
   ).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /about us/i })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: /join/i })).toBeInTheDocument();

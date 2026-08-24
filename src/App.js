@@ -83,16 +83,6 @@ const roomSlides = [
 
 const amenityData = [
   {
-    title: 'Culinary Experience',
-    imageClass: 'amenity-card--dining',
-    copy: 'Complimentary bespoke breakfast, private chef service, western dishes, local specialties, and dietitian-supported requests.',
-  },
-  {
-    title: 'Wellness',
-    imageClass: 'amenity-card--wellness',
-    copy: 'Personalised wellness services, massage therapists, fitness amenities, and curated exercise bags for private routines.',
-  },
-  {
     title: 'Infrastructure & Access',
     imageClass: 'amenity-card--access',
     copy: '24-hour uninterrupted power and state-of-the-art password key locks for discreet, secure entry.',
@@ -113,7 +103,7 @@ const navItems = [
   { href: '#home', Icon: House, label: 'Home' },
   { href: '#rooms', Icon: BedDouble, label: 'Rooms' },
   { href: '#offers', Icon: BadgePercent, label: 'Offers' },
-  { href: '#weddings', Icon: Heart, label: 'Weddings' },
+  { href: '#events', Icon: Heart, label: 'Events' },
   { href: '#about', Icon: MenuIcon, label: 'Menu' },
 ];
 
@@ -183,7 +173,8 @@ function App() {
     const emailBody = [
       `Name: ${formData.get('name')}`,
       `Email: ${formData.get('email')}`,
-      `Preferred dates: ${formData.get('dates') || 'Not specified'}`,
+      `Check-in date: ${formData.get('checkIn') || 'Not specified'}`,
+      `Check-out date: ${formData.get('checkOut') || 'Not specified'}`,
       `Guests: ${formData.get('guests')}`,
       '',
       'Stay details:',
@@ -236,14 +227,12 @@ function App() {
       <main id="home">
         <section className="hero" aria-labelledby="hero-title">
           <motion.div className="section-shell hero__content" variants={heroStagger} initial="hidden" animate="visible">
+            <h1 id="hero-title" className="visually-hidden">Boutique Apartment Abuja</h1>
             <motion.p className="eyebrow" variants={heroItem}>
-              BOUTIQUE APARTMENTS, JABI, ABUJA
+              Boutique Apartment<br />Abuja
             </motion.p>
-            <motion.h1 id="hero-title" variants={heroItem}>
-              A Quieter Way To Stay
-            </motion.h1>
             <motion.p className="hero__summary" variants={heroItem}>
-              Private apartments. Thoughtful service. More space to settle in, right in the heart of Abuja.
+              Private apartment.<br />Thoughtful service.<br />Right in the heart of Abuja.
             </motion.p>
           </motion.div>
 
@@ -375,8 +364,8 @@ function App() {
 
         <motion.section
           className="weddings-section"
-          id="weddings"
-          aria-labelledby="weddings-title"
+          id="events"
+          aria-labelledby="events-title"
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
@@ -384,13 +373,13 @@ function App() {
         >
           <motion.div className="section-shell wedding-grid wedding-grid--copy-only" variants={containerReveal}>
             <motion.div className="wedding-copy" variants={fadeUp}>
-              <p className="quote-large">More than just a venue, Where Luxury meets Exclusivity.</p>
-              <h2 id="weddings-title">Weddings at The Barli</h2>
+              <p className="quote-large">More than just a venue, where meaningful moments come together.</p>
+              <h2 id="events-title">Events at The Barli</h2>
               <p>
-                A sophisticated backdrop for your most important moments. We provide tailored packages
-                for intimate events, exclusive gatherings, and luxurious bridal preparations.
+                A considered setting for intimate celebrations, private gatherings, and occasions
+                that deserve thoughtful hospitality.
               </p>
-              <a className="primary-link" href="mailto:Bookings@thebarli.com">
+              <a className="primary-link" href="mailto:bookings@thebarli.com">
                 Enquire Now
               </a>
             </motion.div>
@@ -488,8 +477,12 @@ function App() {
                   <input name="email" type="email" autoComplete="email" required />
                 </label>
                 <label>
-                  <span>Preferred Date</span>
-                  <input name="dates" type="date" />
+                  <span>Check-in Date</span>
+                  <input name="checkIn" type="date" required />
+                </label>
+                <label>
+                  <span>Check-out Date</span>
+                  <input name="checkOut" type="date" required />
                 </label>
                 <label>
                   <span>Guests</span>
