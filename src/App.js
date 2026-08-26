@@ -2,10 +2,11 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { BadgePercent, BedDouble, ChevronLeft, ChevronRight, Heart, House, Menu as MenuIcon } from 'lucide-react';
 import brandLogo from './assets/logo.png';
-import roomSlideOne from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.38 PM.jpeg';
-import roomSlideTwo from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.38 PM (1).jpeg';
-import roomSlideThree from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.39 PM.jpeg';
-import roomSlideFour from './assets/slideshow-images/WhatsApp Image 2026-08-22 at 9.02.39 PM (1).jpeg';
+import roomSlideOne from './assets/slideshow-images/generated/room-slide-1.png';
+import roomSlideTwo from './assets/slideshow-images/generated/room-slide-2.png';
+import roomSlideThree from './assets/slideshow-images/generated/room-slide-3.png';
+import roomSlideFour from './assets/slideshow-images/generated/room-slide-4.png';
+import roomSlideFive from './assets/slideshow-images/generated/room-slide-5.png';
 import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
@@ -79,6 +80,10 @@ const roomSlides = [
     image: roomSlideFour,
     title: 'Deluxe Room',
   },
+  {
+    image: roomSlideFive,
+    title: 'Deluxe Room',
+  },
 ];
 
 const amenityData = [
@@ -95,8 +100,18 @@ const amenityData = [
 ];
 
 const attractions = [
-  { title: 'Cultural Landmarks', imageClass: 'attraction-card--culture' },
-  { title: 'Recreation', imageClass: 'attraction-card--city' },
+  {
+    title: 'Cultural Landmarks',
+    imageClass: 'attraction-card--culture',
+    credit: 'Zuma Rock photo by Fatima, CC BY-SA 4.0',
+    creditUrl: 'https://commons.wikimedia.org/wiki/File:The_incredible_rock._Zuma_Rock.jpg',
+  },
+  {
+    title: 'Recreation',
+    imageClass: 'attraction-card--recreation',
+    credit: 'Jabi Lake photo by Turizimpressions, CC BY-SA 4.0',
+    creditUrl: 'https://commons.wikimedia.org/wiki/File:Jabi_lake,_Abuja.jpg',
+  },
 ];
 
 const navItems = [
@@ -109,6 +124,7 @@ const navItems = [
 
 function App() {
   const [activeRoomSlide, setActiveRoomSlide] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const headerRef = useRef(null);
   const bottomNavRef = useRef(null);
   const roomSlideshowTouchStart = useRef(null);
@@ -143,6 +159,14 @@ function App() {
       root.style.removeProperty('--site-header-height');
       root.style.removeProperty('--bottom-nav-height');
     };
+  }, []);
+
+  useEffect(() => {
+    const updateHeaderVisibility = () => setIsHeaderVisible(window.scrollY > 24);
+
+    updateHeaderVisibility();
+    window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', updateHeaderVisibility);
   }, []);
 
   const showPreviousRoomSlide = () => {
@@ -182,7 +206,7 @@ function App() {
     ].join('\n');
     const params = new URLSearchParams({ subject: 'Booking enquiry — The Barli', body: emailBody });
 
-    window.location.href = `mailto:bookings@thebarli.com?${params.toString()}`;
+    window.location.href = `mailto:booking@thebarli.com?${params.toString()}`;
   };
 
   const handleNewsletterSignup = (event) => {
@@ -201,9 +225,10 @@ function App() {
       <motion.header
         ref={headerRef}
         className="site-header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        aria-hidden={!isHeaderVisible}
+        animate={{ opacity: isHeaderVisible ? 1 : 0, y: isHeaderVisible ? 0 : -20 }}
+        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+        style={{ pointerEvents: isHeaderVisible ? 'auto' : 'none' }}
       >
         <a className="brand-lockup" href="#home" aria-label="The Barli home">
           <motion.img
@@ -225,17 +250,23 @@ function App() {
       </motion.header>
 
       <main id="home">
-        <section className="hero" aria-labelledby="hero-title">
-          <motion.div className="section-shell hero__content" variants={heroStagger} initial="hidden" animate="visible">
-            <h1 id="hero-title" className="visually-hidden">Boutique Apartment Abuja</h1>
-            <motion.p className="eyebrow" variants={heroItem}>
-              Boutique Apartment<br />Abuja
+        <section className="barli-hero" aria-labelledby="hero-title">
+          <motion.div className="barli-hero__inner" variants={heroStagger} initial="hidden" animate="visible">
+            <motion.div className="barli-hero__brand" variants={heroItem} aria-label="The Barli">
+              <img src={brandLogo} alt="" />
+              <span>The Barli</span>
+            </motion.div>
+            <motion.p className="barli-hero__eyebrow" variants={heroItem}>
+              Boutique Apartments <span aria-hidden="true">♦</span> Jabi, Abuja
             </motion.p>
-            <motion.p className="hero__summary" variants={heroItem}>
-              Private apartment.<br />Thoughtful service.<br />Right in the heart of Abuja.
+            <motion.h1 id="hero-title" className="barli-hero__title" variants={heroItem}>
+              Private apartment.
+              <em>Thoughtful service.</em>
+            </motion.h1>
+            <motion.p className="barli-hero__sub" variants={heroItem}>
+              Right in the heart of Jabi, Abuja.
             </motion.p>
           </motion.div>
-
         </section>
 
         <motion.section
@@ -298,8 +329,8 @@ function App() {
                 className="rooms-slideshow__image"
                 src={roomSlides[activeRoomSlide].image}
                 alt={`${roomSlides[activeRoomSlide].title} at The Barli, Abuja`}
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               />
               <div className="rooms-slideshow__scrim" aria-hidden="true" />
@@ -373,13 +404,13 @@ function App() {
         >
           <motion.div className="section-shell wedding-grid wedding-grid--copy-only" variants={containerReveal}>
             <motion.div className="wedding-copy" variants={fadeUp}>
-              <p className="quote-large">More than just a venue, where meaningful moments come together.</p>
               <h2 id="events-title">Events at The Barli</h2>
+              <p className="quote-large">More than just a venue, where meaningful moments come together.</p>
               <p>
                 A considered setting for intimate celebrations, private gatherings, and occasions
                 that deserve thoughtful hospitality.
               </p>
-              <a className="primary-link" href="mailto:bookings@thebarli.com">
+              <a className="primary-link" href="mailto:booking@thebarli.com">
                 Enquire Now
               </a>
             </motion.div>
@@ -442,6 +473,11 @@ function App() {
                   transition={{ duration: 0.25 }}
                 >
                   <h3>{attraction.title}</h3>
+                  {attraction.credit && (
+                    <a className="attraction-card__credit" href={attraction.creditUrl} target="_blank" rel="noopener noreferrer">
+                      {attraction.credit}
+                    </a>
+                  )}
                 </motion.article>
               ))}
             </motion.div>
@@ -532,7 +568,7 @@ function App() {
         <img src={brandLogo} className="site-footer__mark" alt="" />
         <span>Copyright 2026 THE BARLI. ABUJA. ALL RIGHTS RESERVED.</span>
         <div className="site-footer__socials" aria-label="Social media">
-          <a href="https://www.instagram.com/thebarlia.abuja?igsi=MXBwNHV1N2NnMXcxZQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Instagram">
+          <a href="https://www.instagram.com/thebarli.abuja?utm_source=qr&igsi=MXBwNHV1N2NnMXcxZQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="none" stroke="currentColor" strokeWidth="2" d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Zm8.75 4.25h.01M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
             </svg>
