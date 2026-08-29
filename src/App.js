@@ -23,6 +23,7 @@ import heroLoungeRefined from './assets/hero-carousel/generated/hero-lounge-refi
 import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
+const cookieConsentStorageKey = 'thebarli-cookie-consent-v1';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 52 },
@@ -199,6 +200,9 @@ function App() {
   const [activeRoomSlide, setActiveRoomSlide] = useState(0);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [isCookiePanelVisible, setIsCookiePanelVisible] = useState(false);
+  const [isCookieSettingsOpen, setIsCookieSettingsOpen] = useState(false);
+  const [isAnalyticsEnabled, setIsAnalyticsEnabled] = useState(false);
   const headerRef = useRef(null);
   const bottomNavRef = useRef(null);
   const roomSlideshowTouchStart = useRef(null);
@@ -251,6 +255,21 @@ function App() {
     updateHeaderVisibility();
     window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
     return () => window.removeEventListener('scroll', updateHeaderVisibility);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const savedConsent = window.localStorage.getItem(cookieConsentStorageKey);
+      if (savedConsent) {
+        const { analytics = false } = JSON.parse(savedConsent);
+        setIsAnalyticsEnabled(Boolean(analytics));
+        return;
+      }
+    } catch {
+      // If local storage is unavailable, keep the notice available for this visit.
+    }
+
+    setIsCookiePanelVisible(true);
   }, []);
 
   const showPreviousRoomSlide = () => {
@@ -310,6 +329,30 @@ function App() {
     });
 
     window.location.href = `mailto:admin@thebarli.com?${params.toString()}`;
+  };
+
+  const saveCookieConsent = (analytics) => {
+    const consent = {
+      necessary: true,
+      analytics: Boolean(analytics),
+      updatedAt: new Date().toISOString(),
+      version: 1,
+    };
+
+    try {
+      window.localStorage.setItem(cookieConsentStorageKey, JSON.stringify(consent));
+    } catch {
+      // The selection still applies for the current visit when storage is unavailable.
+    }
+
+    setIsAnalyticsEnabled(consent.analytics);
+    setIsCookieSettingsOpen(false);
+    setIsCookiePanelVisible(false);
+  };
+
+  const reopenCookieSettings = () => {
+    setIsCookieSettingsOpen(true);
+    setIsCookiePanelVisible(true);
   };
 
   return (
@@ -743,7 +786,65 @@ function App() {
             </svg>
           </a>
         </div>
+        <button type="button" className="site-footer__privacy-button" onClick={reopenCookieSettings}>
+          Privacy choices
+        </button>
       </motion.footer>
+
+      {isCookiePanelVisible && (
+        <motion.aside
+          className="cookie-consent"
+          aria-labelledby="cookie-consent-title"
+          initial={{ opacity: 0, y: 44 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <p className="cookie-consent__eyebrow">Privacy preferences</p>
+          <h2 id="cookie-consent-title">Privacy, your way.</h2>
+          <p>
+            We use essential storage to remember your choices and support secure, reliable site functions. Optional analytics help us understand how the site is used, but remain off unless you choose to enable them.
+          </p>
+
+          {isCookieSettingsOpen && (
+            <motion.label
+              className="cookie-consent__option"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+            >
+              <input
+                type="checkbox"
+                checked={isAnalyticsEnabled}
+                onChange={(event) => setIsAnalyticsEnabled(event.target.checked)}
+              />
+              <span>
+                <strong>Optional analytics</strong>
+                <small>Helps us improve the experience. It is never required to use the site.</small>
+              </span>
+            </motion.label>
+          )}
+
+          <div className="cookie-consent__actions">
+            {isCookieSettingsOpen ? (
+              <button type="button" className="cookie-consent__primary" onClick={() => saveCookieConsent(isAnalyticsEnabled)}>
+                Save preferences
+              </button>
+            ) : (
+              <button type="button" className="cookie-consent__primary" onClick={() => saveCookieConsent(true)}>
+                Accept all
+              </button>
+            )}
+            <button type="button" className="cookie-consent__secondary" onClick={() => saveCookieConsent(false)}>
+              Essential only
+            </button>
+            {!isCookieSettingsOpen && (
+              <button type="button" className="cookie-consent__text-button" onClick={() => setIsCookieSettingsOpen(true)}>
+                Customize
+              </button>
+            )}
+          </div>
+        </motion.aside>
+      )}
 
       <motion.a
         href="https://wa.me/2349167000099"
