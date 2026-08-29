@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Italiana&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
 .barli-app {
   min-height: 100vh;
@@ -61,24 +61,37 @@ main > section {
   min-height: 100svh;
   align-items: center;
   justify-content: center;
-  padding: 48px 7vw calc(var(--bottom-nav-height) + 28px);
+  padding: 48px 7vw;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
   background-color: #0e0d0b;
-  background-image: linear-gradient(rgba(14, 13, 11, 0.64), rgba(14, 13, 11, 0.64)), url('./assets/1.jpeg');
-  background-position: center;
-  background-size: cover;
 }
 
 .barli-hero::before {
+  display: none;
+}
+
+.barli-hero__carousel {
   position: absolute;
   z-index: 0;
   inset: 0;
-  content: '';
-  background-image: url('./assets/1.jpeg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+}
+
+.barli-hero__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.025);
+  transition: opacity 1.2s ease-in-out, transform 6s ease-out;
+}
+
+.barli-hero__slide.is-active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .barli-hero::after {
@@ -87,18 +100,31 @@ main > section {
   inset: 0;
   content: '';
   background:
-    linear-gradient(to top, rgba(14, 13, 11, 0.7) 0%, rgba(14, 13, 11, 0.4) 34%, rgba(14, 13, 11, 0.16) 64%, rgba(14, 13, 11, 0.2) 100%),
-    linear-gradient(90deg, rgba(14, 13, 11, 0.16), transparent 24%, transparent 76%, rgba(14, 13, 11, 0.16));
+    linear-gradient(to top, rgba(9, 8, 6, 0.78) 0%, rgba(9, 8, 6, 0.38) 40%, rgba(9, 8, 6, 0.1) 72%, rgba(9, 8, 6, 0.2) 100%),
+    linear-gradient(90deg, rgba(9, 8, 6, 0.2), transparent 28%, transparent 72%, rgba(9, 8, 6, 0.2));
 }
 
 .barli-hero__inner {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 45rem;
+  max-width: 78rem;
   margin-inline: auto;
   text-align: center;
-  transform: translateY(-4vh);
+  transform: none;
+}
+
+.barli-hero__logo {
+  position: absolute;
+  z-index: 2;
+  top: clamp(36px, 8vh, 92px);
+  right: 0;
+  left: 0;
+  width: clamp(58px, 5vw, 76px);
+  height: clamp(58px, 5vw, 76px);
+  margin-inline: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 3px 10px rgba(0, 0, 0, 0.42));
 }
 
 .eyebrow,
@@ -153,14 +179,48 @@ p {
 }
 
 .barli-hero__title {
-  margin: 0;
-  color: #f7f4ee;
+  margin: 0 auto;
+  max-width: none;
+  color: #ffffff;
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.8rem, 5.4vw, 5rem);
+  font-size: clamp(3rem, 5.2vw, 5.5rem);
+  font-style: normal;
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.08;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
   text-transform: none;
+}
+
+.barli-hero__title span {
+  display: block;
+}
+
+.barli-hero__controls {
+  position: absolute;
+  z-index: 3;
+  right: clamp(20px, 3vw, 56px);
+  bottom: calc(var(--bottom-nav-height) + 34px);
+  display: flex;
+  gap: 10px;
+}
+
+.barli-hero__controls button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  border-radius: 50%;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.barli-hero__controls button:hover,
+.barli-hero__controls button:focus-visible {
+  background: #ffffff;
+  color: #111111;
 }
 
 .barli-hero__title em {
@@ -222,18 +282,8 @@ p {
 }
 
 @media (min-width: 761px) {
-  .barli-hero {
-    background-image: linear-gradient(rgba(14, 13, 11, 0.48), rgba(14, 13, 11, 0.48)), url('./assets/hero-wide.png');
-    background-position: center;
-    background-size: 100% 100%;
-  }
-
-  .barli-hero::before {
-    display: none;
-  }
-
   .barli-hero__inner {
-    max-width: 45rem;
+    max-width: 78rem;
   }
 
   .barli-hero__eyebrow {
@@ -664,6 +714,116 @@ p {
   font-size: 0.94rem;
 }
 
+.amenity-card__features {
+  display: grid;
+  gap: 9px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.amenity-card__features li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.amenity-card__features li::before {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  content: '';
+}
+
+.amenity-highlights {
+  width: min(100%, 42rem);
+  margin: 42px auto 0;
+  padding: 0;
+  text-align: center;
+}
+
+.amenity-highlights .section-kicker {
+  margin-bottom: 18px;
+}
+
+.amenity-highlights ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.amenity-highlights li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  color: #f5f1e9;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.amenity-highlights li::before {
+  display: none;
+}
+
+.bed-breakfast-section {
+  padding: 104px 0;
+  background: #f4efe7;
+}
+
+.bed-breakfast-offer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 20px 60px rgba(31, 23, 13, 0.12);
+}
+
+.bed-breakfast-offer__image {
+  overflow: hidden;
+}
+
+.bed-breakfast-offer__image > img {
+  width: 100%;
+  min-height: 380px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bed-breakfast-offer__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(38px, 6vw, 78px);
+  color: #17130f;
+}
+
+.bed-breakfast-offer__copy .section-kicker,
+.bed-breakfast-offer__copy h2,
+.bed-breakfast-offer__copy p,
+.bed-breakfast-offer__copy .text-link {
+  color: #17130f;
+}
+
+.bed-breakfast-offer__copy h2 {
+  margin-bottom: 20px;
+  font-size: clamp(2rem, 3.5vw, 3.8rem);
+}
+
+.bed-breakfast-offer__copy p:not(.section-kicker) {
+  max-width: 30rem;
+}
+
 .details-section {
   padding: 104px 0;
   background: #0b0b0b;
@@ -721,7 +881,7 @@ p {
   margin-bottom: 30px;
   color: #ffffff;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 4.2rem);
+  font-size: clamp(1.6rem, 3.2vw, 3.25rem);
   font-style: italic;
   line-height: 1.15;
 }
@@ -1363,14 +1523,7 @@ p {
 
   .barli-hero {
     min-height: 100svh;
-    padding: 34px 7vw calc(var(--bottom-nav-height) + 24px);
-    background-image: url('./assets/1.jpeg');
-    background-position: center;
-    background-size: cover;
-  }
-
-  .barli-hero::before {
-    display: none;
+    padding: 34px 7vw;
   }
 
   .barli-hero::after {
@@ -1381,7 +1534,6 @@ p {
 
   .barli-hero__inner {
     max-width: 34rem;
-    transform: translateY(-3vh);
   }
 
   .barli-hero__brand {
@@ -1395,7 +1547,25 @@ p {
   }
 
   .barli-hero__title {
-    font-size: clamp(2.8rem, 10.7vw, 4rem);
+    max-width: none;
+    font-size: clamp(2.75rem, 12vw, 4rem);
+    line-height: 1;
+  }
+
+  .barli-hero__logo {
+    top: 34px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .barli-hero__controls {
+    right: 18px;
+    bottom: calc(var(--bottom-nav-height) + 22px);
+  }
+
+  .barli-hero__controls button {
+    width: 40px;
+    height: 40px;
   }
 
   .barli-hero__sub {
@@ -1437,6 +1607,7 @@ p {
 
   .rooms-section,
   .amenities-section,
+  .bed-breakfast-section,
   .details-section,
   .weddings-section,
   .about-section,
@@ -1453,6 +1624,24 @@ p {
   .details-grid,
   .attractions-list {
     grid-template-columns: 1fr;
+  }
+
+  .amenity-highlights {
+    padding: 26px 22px;
+  }
+
+  .amenity-highlights ul {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .bed-breakfast-offer {
+    grid-template-columns: 1fr;
+  }
+
+  .bed-breakfast-offer__image > img {
+    min-height: 270px;
+    max-height: 340px;
   }
 
   .room-card__image {
@@ -1527,6 +1716,12 @@ p {
   .nav-item__icon svg {
     width: 15px;
     height: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barli-hero__slide {
+    transition: none;
   }
 }
 

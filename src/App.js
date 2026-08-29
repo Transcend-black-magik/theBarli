@@ -7,6 +7,19 @@ import roomSlideTwo from './assets/slideshow-images/generated/room-slide-2.png';
 import roomSlideThree from './assets/slideshow-images/generated/room-slide-3.png';
 import roomSlideFour from './assets/slideshow-images/generated/room-slide-4.png';
 import roomSlideFive from './assets/slideshow-images/generated/room-slide-5.png';
+import heroSlideOne from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.38 AM.jpeg';
+import heroSlideThree from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (3).jpeg';
+import heroSlideFour from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (2).jpeg';
+import heroSlideFive from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (1).jpeg';
+import heroSlideSix from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.36 AM.jpeg';
+import heroSlideEight from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.30.28 AM.jpeg';
+import heroSlideTen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.30.07 AM.jpeg';
+import heroSlideEleven from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.36 AM.jpeg';
+import heroSlideTwelve from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.36 AM (1).jpeg';
+import heroSlideFourteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.24 AM.jpeg';
+import heroSlideSixteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 1.08.05 AM.jpeg';
+import heroBedroomRefined from './assets/hero-carousel/generated/hero-bedroom-refined.png';
+import heroLoungeRefined from './assets/hero-carousel/generated/hero-lounge-refined.png';
 import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
@@ -44,22 +57,50 @@ const containerReveal = {
   },
 };
 
-const heroStagger = {
+const keyFeatureListReveal = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.16,
-      staggerChildren: 0.16,
+      staggerChildren: 0.1,
+      delayChildren: 0.08,
     },
   },
 };
 
-const heroItem = {
-  hidden: { opacity: 0, y: 26 },
+const keyFeatureItemReveal = {
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const offerImageReveal = {
+  hidden: { clipPath: 'inset(0 100% 0 0)', scale: 1.08 },
+  visible: {
+    clipPath: 'inset(0 0% 0 0)',
+    scale: 1,
+    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const offerCopyReveal = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.34,
+      staggerChildren: 0.14,
+    },
+  },
+};
+
+const offerCopyItemReveal = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.62, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -90,12 +131,12 @@ const amenityData = [
   {
     title: 'Infrastructure & Access',
     imageClass: 'amenity-card--access',
-    copy: '24-hour uninterrupted power and state-of-the-art password key locks for discreet, secure entry.',
+    features: ['24-Hour Power', 'Smart Keyless Entry', 'Reliable Security'],
   },
   {
     title: 'Logistics & Concierge',
     imageClass: 'amenity-card--concierge',
-    copy: 'Complimentary VIP airport pickup, seamless arrival support, and dedicated on-site accommodation for drivers.',
+    features: ['VIP Airport Pickup', 'Driver Accommodation'],
   },
 ];
 
@@ -114,6 +155,38 @@ const attractions = [
   },
 ];
 
+const heroSlides = [
+  heroSlideOne,
+  heroLoungeRefined,
+  heroSlideThree,
+  heroSlideFour,
+  heroSlideFive,
+  heroSlideSix,
+  heroBedroomRefined,
+  heroSlideEight,
+  heroSlideTen,
+  heroSlideEleven,
+  heroSlideTwelve,
+  heroSlideFourteen,
+  heroSlideSixteen,
+];
+
+const keyFeatures = [
+  'Sleeps 2, super king bed',
+  'Minibar with coffee machine and tea',
+  'Complimentary welcome fruit basket',
+  'Complimentary breakfast',
+  'Access to guest lounge',
+  'Balcony and garden dining area',
+  'Secured parking',
+  'WhatsApp concierge service',
+  'VIP Airport Pickup',
+  'Driver Accommodation',
+  '24-Hour Power',
+  'Smart Keyless Entry',
+  'Reliable Security',
+];
+
 const navItems = [
   { href: '#home', Icon: House, label: 'Home' },
   { href: '#rooms', Icon: BedDouble, label: 'Rooms' },
@@ -124,6 +197,7 @@ const navItems = [
 
 function App() {
   const [activeRoomSlide, setActiveRoomSlide] = useState(0);
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const headerRef = useRef(null);
   const bottomNavRef = useRef(null);
@@ -162,6 +236,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const slideTimer = window.setInterval(() => {
+      setActiveHeroSlide((currentSlide) => (currentSlide + 1) % heroSlides.length);
+    }, 6000);
+
+    return () => window.clearInterval(slideTimer);
+  }, []);
+
+  useEffect(() => {
     const updateHeaderVisibility = () => setIsHeaderVisible(window.scrollY > 24);
 
     updateHeaderVisibility();
@@ -175,6 +259,14 @@ function App() {
 
   const showNextRoomSlide = () => {
     setActiveRoomSlide((currentSlide) => (currentSlide + 1) % roomSlides.length);
+  };
+
+  const showPreviousHeroSlide = () => {
+    setActiveHeroSlide((currentSlide) => (currentSlide - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const showNextHeroSlide = () => {
+    setActiveHeroSlide((currentSlide) => (currentSlide + 1) % heroSlides.length);
   };
 
   const handleRoomSlideshowTouchStart = (event) => {
@@ -251,22 +343,43 @@ function App() {
 
       <main id="home">
         <section className="barli-hero" aria-labelledby="hero-title">
-          <motion.div className="barli-hero__inner" variants={heroStagger} initial="hidden" animate="visible">
-            <motion.div className="barli-hero__brand" variants={heroItem} aria-label="The Barli">
-              <img src={brandLogo} alt="" />
-              <span>The Barli</span>
-            </motion.div>
-            <motion.p className="barli-hero__eyebrow" variants={heroItem}>
-              Boutique Apartments <span aria-hidden="true">♦</span> Jabi, Abuja
-            </motion.p>
-            <motion.h1 id="hero-title" className="barli-hero__title" variants={heroItem}>
-              Private apartment.
-              <em>Thoughtful service.</em>
-            </motion.h1>
-            <motion.p className="barli-hero__sub" variants={heroItem}>
-              Right in the heart of Jabi, Abuja.
-            </motion.p>
+          <div className="barli-hero__carousel" aria-hidden="true">
+            {heroSlides.map((image, index) => (
+              <img
+                key={image}
+                className={`barli-hero__slide ${index === activeHeroSlide ? 'is-active' : ''}`}
+                src={image}
+                alt=""
+              />
+            ))}
+          </div>
+          <motion.img
+            className="barli-hero__logo"
+            src={brandLogo}
+            alt="The Barli"
+            initial={{ opacity: 0, y: -22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.25, ease: [0.16, 1, 0.3, 1] }}
+          />
+          <motion.div
+            className="barli-hero__inner"
+            initial={{ opacity: 0, y: 28, clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
+            transition={{ duration: 1.45, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h1 id="hero-title" className="barli-hero__title">
+              <span>Your space</span>
+              <span>Your privacy</span>
+            </h1>
           </motion.div>
+          <div className="barli-hero__controls">
+            <button type="button" onClick={showPreviousHeroSlide} aria-label="Show previous hero image">
+              <ChevronLeft aria-hidden="true" />
+            </button>
+            <button type="button" onClick={showNextHeroSlide} aria-label="Show next hero image">
+              <ChevronRight aria-hidden="true" />
+            </button>
+          </div>
         </section>
 
         <motion.section
@@ -311,7 +424,6 @@ function App() {
           <motion.div className="section-shell" variants={containerReveal}>
             <motion.div className="section-heading" variants={fadeUp}>
               <div>
-                <p className="section-kicker">The Residence</p>
                 <h2 id="rooms-title">The Rooms</h2>
               </div>
             </motion.div>
@@ -385,11 +497,63 @@ function App() {
                 >
                   <div>
                     <h3>{amenity.title}</h3>
-                    <p>{amenity.copy}</p>
+                    <ul className="amenity-card__features">
+                      {amenity.features.map((feature) => (
+                        <li key={feature}>{feature}</li>
+                      ))}
+                    </ul>
                   </div>
                 </motion.article>
               ))}
             </motion.div>
+
+            <motion.div className="amenity-highlights" variants={fadeUp}>
+              <p className="section-kicker">Key Features</p>
+              <motion.ul
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={keyFeatureListReveal}
+              >
+                {keyFeatures.map((feature) => (
+                  <motion.li key={feature} variants={keyFeatureItemReveal}>
+                    {feature}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.div>
+          </motion.div>
+        </motion.section>
+
+        <motion.section
+          className="bed-breakfast-section"
+          aria-labelledby="bed-breakfast-title"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={sectionReveal}
+        >
+          <motion.div className="section-shell" variants={containerReveal}>
+            <motion.article
+              className="bed-breakfast-offer"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <motion.div className="bed-breakfast-offer__image" variants={offerImageReveal}>
+                <img src={heroSlideSixteen} alt="Breakfast setting at The Barli" />
+              </motion.div>
+              <motion.div className="bed-breakfast-offer__copy" variants={offerCopyReveal}>
+                <motion.p className="section-kicker" variants={offerCopyItemReveal}>An Exclusive Stay</motion.p>
+                <motion.h2 id="bed-breakfast-title" variants={offerCopyItemReveal}>Bed &amp; Breakfast Offer</motion.h2>
+                <motion.p variants={offerCopyItemReveal}>
+                  Enjoy a weekend escape or a quiet staycation in Abuja, with breakfast served on The Barli’s private balcony and garden dining area.
+                </motion.p>
+                <motion.a className="text-link" href="mailto:booking@thebarli.com" variants={offerCopyItemReveal}>
+                  Book Now
+                </motion.a>
+              </motion.div>
+            </motion.article>
           </motion.div>
         </motion.section>
 
@@ -407,8 +571,8 @@ function App() {
               <h2 id="events-title">Events at The Barli</h2>
               <p className="quote-large">More than just a venue, where meaningful moments come together.</p>
               <p>
-                A considered setting for intimate celebrations, private gatherings, and occasions
-                that deserve thoughtful hospitality.
+                An elegant setting for intimate celebrations, private gatherings, and moments worth
+                making memorable.
               </p>
               <a className="primary-link" href="mailto:booking@thebarli.com">
                 Enquire Now
