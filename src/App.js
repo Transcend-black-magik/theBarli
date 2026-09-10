@@ -19,13 +19,12 @@ import roomImage14 from './assets/rooms/generated/room-desktop-14.png';
 import roomImage15 from './assets/rooms/generated/room-desktop-15.png';
 import roomImage16 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.51 PM (3).jpeg';
 import roomImage17 from './assets/rooms/generated/room-desktop-17.png';
-import heroSlideSixteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 1.08.05 AM.jpeg';
+import diningImage from './assets/dining.jpeg';
 import amenityPower from './assets/amenities/power.png';
 import amenityKeylessEntry from './assets/amenities/keyless-entry.png';
 import amenityAirportTransfer from './assets/amenities/airport-transfer.png';
-import amenityDriverAccommodation from './assets/amenities/driver-accommodation.png';
 import amenityArrivalSupport from './assets/amenities/arrival-support.png';
-import eventsCelebration from './assets/events-celebration.png';
+import gardenImage from './assets/garden4.jpeg';
 import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
@@ -115,7 +114,6 @@ const amenityData = [
   { title: '24 Hour Power', copy: 'Reliable power throughout your stay.', image: amenityPower, alt: 'Warmly lit apartment living room' },
   { title: 'Secure Keyless Entry', copy: 'Password protected access for easy, discreet entry.', image: amenityKeylessEntry, alt: 'Smart lock at an apartment entrance' },
   { title: 'Private Airport Transfers', copy: 'Airport pickup can be arranged on request.', image: amenityAirportTransfer, alt: 'Private car waiting for an airport transfer' },
-  { title: 'Driver Accommodation', copy: 'Dedicated on site accommodation available for drivers.', image: amenityDriverAccommodation, alt: 'Comfortable private driver accommodation' },
   { title: 'Arrival Support', copy: 'Assistance to help make your arrival smooth and straightforward.', image: amenityArrivalSupport, alt: 'Welcome card being presented at arrival' },
 ];
 
@@ -241,7 +239,6 @@ function App() {
 
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let animationFrame = 0;
-    let isNearViewport = false;
 
     const applyTransform = () => {
       animationFrame = 0;
@@ -252,34 +249,30 @@ function App() {
       }
 
       const rect = section.getBoundingClientRect();
-      const travel = Math.min(140, Math.max(96, rect.height * 0.18));
+      const travel = Math.min(180, Math.max(110, rect.height * 0.24));
       const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
       const offset = Math.round((progress - 0.5) * travel * 2);
-      media.style.transform = `translate3d(0, ${offset}px, 0) scale(1.02)`;
+      media.style.transform = `translate3d(0, ${offset}px, 0) scale(1.04)`;
     };
 
     const scheduleTransform = () => {
-      if (!isNearViewport || animationFrame) return;
+      if (animationFrame) return;
       animationFrame = window.requestAnimationFrame(applyTransform);
     };
 
-    const observer = new IntersectionObserver(([entry]) => {
-      isNearViewport = entry.isIntersecting;
-      if (isNearViewport) scheduleTransform();
-    }, { rootMargin: '160px 0px' });
-
     const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(scheduleTransform);
-    observer.observe(section);
     resizeObserver?.observe(section);
     window.addEventListener('scroll', scheduleTransform, { passive: true });
     window.addEventListener('resize', scheduleTransform);
+    window.addEventListener('load', scheduleTransform);
     reducedMotionQuery.addEventListener('change', scheduleTransform);
+    scheduleTransform();
 
     return () => {
-      observer.disconnect();
       resizeObserver?.disconnect();
       window.removeEventListener('scroll', scheduleTransform);
       window.removeEventListener('resize', scheduleTransform);
+      window.removeEventListener('load', scheduleTransform);
       reducedMotionQuery.removeEventListener('change', scheduleTransform);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
@@ -587,7 +580,7 @@ function App() {
                 Private apartments, thoughtful service, and a more personal way to experience Abuja.
               </p>
               <p>
-                The Barli brings together contemporary design, considered spaces and a thoughtful
+                The Barli brings together contemporary design, elegant spaces and a thoughtful
                 approach to hospitality. From the way you arrive to the way you unwind, the details
                 are designed around your stay.
               </p>
@@ -610,7 +603,7 @@ function App() {
           <motion.div className="section-shell" variants={containerReveal}>
             <motion.div className="section-heading rooms-section__heading" variants={fadeUp}>
               <div>
-                <h2 id="rooms-title">The Rooms</h2>
+                <h2 id="rooms-title">Our Rooms</h2>
               </div>
             </motion.div>
 
@@ -632,9 +625,6 @@ function App() {
                 transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               />
               <div className="rooms-slideshow__scrim" aria-hidden="true" />
-              <div className="rooms-slideshow__caption">
-                <h3>{roomSlides[activeRoomSlide].title}</h3>
-              </div>
               <button className="rooms-slideshow__arrow rooms-slideshow__arrow--previous" type="button" onClick={showPreviousRoomSlide} aria-label="Show previous room image">
                 <ChevronLeft aria-hidden="true" />
               </button>
@@ -697,7 +687,7 @@ function App() {
               viewport={{ once: true, amount: 0.3 }}
             >
               <motion.div className="bed-breakfast-offer__image" variants={offerImageReveal}>
-                <img ref={breakfastMediaRef} src={heroSlideSixteen} alt="Breakfast setting at The Barli" />
+                <img ref={breakfastMediaRef} src={diningImage} alt="Dining setting at The Barli" />
               </motion.div>
               <motion.div className="bed-breakfast-offer__copy" variants={offerCopyReveal}>
                 <motion.p className="section-kicker" variants={offerCopyItemReveal}>The Barli Invitation</motion.p>
@@ -727,7 +717,7 @@ function App() {
             className="events-parallax-media"
             aria-hidden="true"
             alt=""
-            src={eventsCelebration}
+            src={gardenImage}
             ref={eventsMediaRef}
             decoding="async"
           />
@@ -742,7 +732,7 @@ function App() {
               <p className="section-kicker">Events at The Barli</p>
               <h2 id="events-title">For moments that <span>cannot be ordinary.</span></h2>
               <p>
-                From intimate celebrations to small private gatherings, The Barli offers a considered
+                From intimate celebrations to small private gatherings, The Barli offers a perfect
                 setting for moments shared with the people who matter.
               </p>
               <p className="events-closing">Your occasion. Your people. Your space.</p>
@@ -777,7 +767,7 @@ function App() {
                 design, comfort and thoughtful attention to detail.
               </p>
               <p>
-                With secure access, reliable power and considered spaces throughout, everything is
+                With secure access, reliable power and elegant spaces throughout, everything is
                 designed to make your stay feel easy.
               </p>
               <p>
