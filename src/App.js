@@ -1,29 +1,48 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { BadgePercent, BedDouble, ChevronLeft, ChevronRight, Heart, House, Menu as MenuIcon } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
 import brandLogo from './assets/logo.png';
-import roomSlideOne from './assets/slideshow-images/generated/room-slide-1.png';
-import roomSlideTwo from './assets/slideshow-images/generated/room-slide-2.png';
-import roomSlideThree from './assets/slideshow-images/generated/room-slide-3.png';
-import roomSlideFour from './assets/slideshow-images/generated/room-slide-4.png';
-import roomSlideFive from './assets/slideshow-images/generated/room-slide-5.png';
-import heroSlideOne from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.38 AM.jpeg';
-import heroSlideThree from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (3).jpeg';
-import heroSlideFour from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (2).jpeg';
-import heroSlideFive from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.37 AM (1).jpeg';
-import heroSlideSix from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.56.36 AM.jpeg';
-import heroSlideEight from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.30.28 AM.jpeg';
-import heroSlideTen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.30.07 AM.jpeg';
-import heroSlideEleven from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.36 AM.jpeg';
-import heroSlideTwelve from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.36 AM (1).jpeg';
-import heroSlideFourteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 12.09.24 AM.jpeg';
+import roomImage01 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.40 PM.jpeg';
+import roomImage02 from './assets/rooms/generated/room-desktop-02.png';
+import roomImage03 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.42 PM.jpeg';
+import roomImage04 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (1).jpeg';
+import roomImage05 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (2).jpeg';
+import roomImage06 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (3).jpeg';
+import roomImage07 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM.jpeg';
+import roomImage08 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM (1).jpeg';
+import roomImage09 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM (2).jpeg';
+import roomImage10 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM.jpeg';
+import roomImage11 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM (1).jpeg';
+import roomImage12 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM (2).jpeg';
+import roomImage13 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM.jpeg';
+import roomImage14 from './assets/rooms/generated/room-desktop-14.png';
+import roomImage15 from './assets/rooms/generated/room-desktop-15.png';
+import roomImage16 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.51 PM (3).jpeg';
+import roomImage17 from './assets/rooms/generated/room-desktop-17.png';
 import heroSlideSixteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 1.08.05 AM.jpeg';
-import heroBedroomRefined from './assets/hero-carousel/generated/hero-bedroom-refined.png';
-import heroLoungeRefined from './assets/hero-carousel/generated/hero-lounge-refined.png';
-import './App.css';/*  */
+import amenityPower from './assets/amenities/power.png';
+import amenityKeylessEntry from './assets/amenities/keyless-entry.png';
+import amenityAirportTransfer from './assets/amenities/airport-transfer.png';
+import amenityDriverAccommodation from './assets/amenities/driver-accommodation.png';
+import amenityArrivalSupport from './assets/amenities/arrival-support.png';
+import eventsCelebration from './assets/events-celebration.png';
+import './App.css';
 
 const viewport = { once: true, amount: 0.18 };
 const cookieConsentStorageKey = 'thebarli-cookie-consent-v1';
+const landscapeHeroContext = require.context('./assets/landscape-images', false, /\.jpe?g$/i);
+const portraitHeroContext = require.context('./assets/porttrait-images', false, /\.jpe?g$/i);
+const createSlides = (context) => context.keys().sort().map((key) => ({ image: context(key) }));
+const desktopHeroSlides = createSlides(landscapeHeroContext);
+const mobileHeroSlides = [...desktopHeroSlides, ...createSlides(portraitHeroContext)];
+const navigationLinks = [
+  { href: '#home', label: 'Home' },
+  { href: '#rooms', label: 'Rooms' },
+  { href: '#amenities', label: 'Features' },
+  { href: '#events', label: 'Events' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 52 },
@@ -87,34 +106,17 @@ const offerCopyItemReveal = {
 };
 
 const roomSlides = [
-  {
-    image: roomSlideOne,
-    title: 'Prestige Room',
-  },
-  {
-    image: roomSlideTwo,
-    title: 'Prestige Room',
-  },
-  {
-    image: roomSlideThree,
-    title: 'Prestige Room',
-  },
-  {
-    image: roomSlideFour,
-    title: 'Deluxe Room',
-  },
-  {
-    image: roomSlideFive,
-    title: 'Deluxe Room',
-  },
-];
+  roomImage01, roomImage02, roomImage03, roomImage04, roomImage05, roomImage06,
+  roomImage07, roomImage08, roomImage09, roomImage10, roomImage11, roomImage12,
+  roomImage13, roomImage14, roomImage15, roomImage16, roomImage17,
+].map((image) => ({ image, title: 'The Barli Rooms' }));
 
 const amenityData = [
-  { title: '24 Hour Power', copy: 'Reliable power throughout your stay.' },
-  { title: 'Secure Keyless Entry', copy: 'Password protected access for easy, discreet entry.' },
-  { title: 'Private Airport Transfers', copy: 'Airport pickup can be arranged on request.' },
-  { title: 'Driver Accommodation', copy: 'Dedicated on site accommodation available for drivers.' },
-  { title: 'Arrival Support', copy: 'Assistance to help make your arrival smooth and straightforward.' },
+  { title: '24 Hour Power', copy: 'Reliable power throughout your stay.', image: amenityPower, alt: 'Warmly lit apartment living room' },
+  { title: 'Secure Keyless Entry', copy: 'Password protected access for easy, discreet entry.', image: amenityKeylessEntry, alt: 'Smart lock at an apartment entrance' },
+  { title: 'Private Airport Transfers', copy: 'Airport pickup can be arranged on request.', image: amenityAirportTransfer, alt: 'Private car waiting for an airport transfer' },
+  { title: 'Driver Accommodation', copy: 'Dedicated on site accommodation available for drivers.', image: amenityDriverAccommodation, alt: 'Comfortable private driver accommodation' },
+  { title: 'Arrival Support', copy: 'Assistance to help make your arrival smooth and straightforward.', image: amenityArrivalSupport, alt: 'Welcome card being presented at arrival' },
 ];
 
 const attractions = [
@@ -132,39 +134,20 @@ const attractions = [
   },
 ];
 
-const heroSlides = [
-  heroSlideOne,
-  heroLoungeRefined,
-  heroSlideThree,
-  heroSlideFour,
-  heroSlideFive,
-  heroSlideSix,
-  heroBedroomRefined,
-  heroSlideEight,
-  heroSlideTen,
-  heroSlideEleven,
-  heroSlideTwelve,
-  heroSlideFourteen,
-  heroSlideSixteen,
-];
-
-const navItems = [
-  { href: '#home', Icon: House, label: 'Home' },
-  { href: '#rooms', Icon: BedDouble, label: 'Rooms' },
-  { href: '#offers', Icon: BadgePercent, label: 'Offers' },
-  { href: '#events', Icon: Heart, label: 'Events' },
-  { href: '#about', Icon: MenuIcon, label: 'Menu' },
-];
-
 function App() {
   const [activeRoomSlide, setActiveRoomSlide] = useState(0);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => window.matchMedia('(max-width: 760px)').matches);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [isCookiePanelVisible, setIsCookiePanelVisible] = useState(false);
   const [isCookieSettingsOpen, setIsCookieSettingsOpen] = useState(false);
   const [isAnalyticsEnabled, setIsAnalyticsEnabled] = useState(false);
   const headerRef = useRef(null);
-  const bottomNavRef = useRef(null);
+  const eventsSectionRef = useRef(null);
+  const eventsMediaRef = useRef(null);
+  const breakfastOfferRef = useRef(null);
+  const breakfastMediaRef = useRef(null);
   const roomSlideshowTouchStart = useRef(null);
 
   useEffect(() => {
@@ -179,15 +162,12 @@ function App() {
     const root = document.documentElement;
     const updateViewportInsets = () => {
       const headerHeight = Math.ceil(headerRef.current?.getBoundingClientRect().height ?? 0);
-      const bottomNavHeight = Math.ceil(bottomNavRef.current?.getBoundingClientRect().height ?? 0);
-
       root.style.setProperty('--site-header-height', `${headerHeight}px`);
-      root.style.setProperty('--bottom-nav-height', `${bottomNavHeight}px`);
+      root.style.setProperty('--bottom-nav-height', '0px');
     };
 
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateViewportInsets);
     if (headerRef.current) observer?.observe(headerRef.current);
-    if (bottomNavRef.current) observer?.observe(bottomNavRef.current);
     window.addEventListener('resize', updateViewportInsets);
     updateViewportInsets();
 
@@ -200,6 +180,126 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const offer = breakfastOfferRef.current;
+    const media = breakfastMediaRef.current;
+    if (!offer || !media) return undefined;
+
+    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let animationFrame = 0;
+    let isNearViewport = false;
+
+    const applyTransform = () => {
+      animationFrame = 0;
+      if (!mobileQuery.matches || reducedMotionQuery.matches) {
+        media.style.transform = '';
+        return;
+      }
+
+      const rect = offer.getBoundingClientRect();
+      const travel = Math.min(120, Math.max(76, rect.height * 0.16));
+      const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+      const offset = Math.round((progress - 0.5) * travel * 2);
+      media.style.transform = `translate3d(0, ${offset}px, 0) scale(1.04)`;
+    };
+
+    const scheduleTransform = () => {
+      if (!isNearViewport || animationFrame) return;
+      animationFrame = window.requestAnimationFrame(applyTransform);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isNearViewport = entry.isIntersecting;
+      if (isNearViewport) scheduleTransform();
+    }, { rootMargin: '140px 0px' });
+
+    const handleModeChange = () => {
+      if (!mobileQuery.matches || reducedMotionQuery.matches) media.style.transform = '';
+      scheduleTransform();
+    };
+
+    observer.observe(offer);
+    window.addEventListener('scroll', scheduleTransform, { passive: true });
+    window.addEventListener('resize', scheduleTransform);
+    mobileQuery.addEventListener('change', handleModeChange);
+    reducedMotionQuery.addEventListener('change', handleModeChange);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', scheduleTransform);
+      window.removeEventListener('resize', scheduleTransform);
+      mobileQuery.removeEventListener('change', handleModeChange);
+      reducedMotionQuery.removeEventListener('change', handleModeChange);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  useEffect(() => {
+    const section = eventsSectionRef.current;
+    const media = eventsMediaRef.current;
+    if (!section || !media) return undefined;
+
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let animationFrame = 0;
+    let isNearViewport = false;
+
+    const applyTransform = () => {
+      animationFrame = 0;
+
+      if (reducedMotionQuery.matches) {
+        media.style.transform = 'translate3d(0, 0, 0) scale(1.02)';
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const travel = Math.min(140, Math.max(96, rect.height * 0.18));
+      const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+      const offset = Math.round((progress - 0.5) * travel * 2);
+      media.style.transform = `translate3d(0, ${offset}px, 0) scale(1.02)`;
+    };
+
+    const scheduleTransform = () => {
+      if (!isNearViewport || animationFrame) return;
+      animationFrame = window.requestAnimationFrame(applyTransform);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isNearViewport = entry.isIntersecting;
+      if (isNearViewport) scheduleTransform();
+    }, { rootMargin: '160px 0px' });
+
+    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(scheduleTransform);
+    observer.observe(section);
+    resizeObserver?.observe(section);
+    window.addEventListener('scroll', scheduleTransform, { passive: true });
+    window.addEventListener('resize', scheduleTransform);
+    reducedMotionQuery.addEventListener('change', scheduleTransform);
+
+    return () => {
+      observer.disconnect();
+      resizeObserver?.disconnect();
+      window.removeEventListener('scroll', scheduleTransform);
+      window.removeEventListener('resize', scheduleTransform);
+      reducedMotionQuery.removeEventListener('change', scheduleTransform);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  const heroSlides = isMobileViewport ? mobileHeroSlides : desktopHeroSlides;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 760px)');
+    const updateViewportMode = (event) => setIsMobileViewport(event.matches);
+
+    mediaQuery.addEventListener('change', updateViewportMode);
+    return () => mediaQuery.removeEventListener('change', updateViewportMode);
+  }, []);
+
+  useEffect(() => {
+    setActiveHeroSlide(0);
+  }, [isMobileViewport]);
+
+  useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
 
     const slideTimer = window.setInterval(() => {
@@ -207,7 +307,7 @@ function App() {
     }, 6000);
 
     return () => window.clearInterval(slideTimer);
-  }, []);
+  }, [heroSlides.length]);
 
   useEffect(() => {
     const updateHeaderVisibility = () => setIsHeaderVisible(window.scrollY > 24);
@@ -326,6 +426,15 @@ function App() {
         transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: isHeaderVisible ? 'auto' : 'none' }}
       >
+        <button
+          className="menu-trigger menu-trigger--header"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen(true)}
+        >
+          <Menu aria-hidden="true" strokeWidth={1.35} />
+        </button>
         <a className="brand-lockup" href="#home" aria-label="The Barli home">
           <motion.img
             src={brandLogo}
@@ -343,20 +452,81 @@ function App() {
             THE BARLI
           </motion.span>
         </a>
+        <a className="header-booking-link" href="#contact">
+          Book now <ChevronDown aria-hidden="true" />
+        </a>
       </motion.header>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <motion.button
+              type="button"
+              className="navigation-drawer__backdrop"
+              aria-label="Close navigation menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+            />
+            <motion.aside
+              className="navigation-drawer"
+              aria-label="Site navigation"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="navigation-drawer__top">
+                <img src={brandLogo} alt="" />
+                <button type="button" className="navigation-drawer__close" aria-label="Close navigation menu" onClick={() => setIsMenuOpen(false)}>
+                  <X aria-hidden="true" />
+                </button>
+              </div>
+              <nav>
+                {navigationLinks.map((link, index) => (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    initial={{ opacity: 0, x: -18 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + index * 0.055, duration: 0.3 }}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span>0{index + 1}</span>{link.label}
+                  </motion.a>
+                ))}
+              </nav>
+              <a className="navigation-drawer__booking" href="mailto:booking@thebarli.com">Make a booking</a>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
       <main id="home">
         <section className="barli-hero" aria-labelledby="hero-title">
           <div className="barli-hero__carousel" aria-hidden="true">
-            {heroSlides.map((image, index) => (
+            {heroSlides.map((slide, index) => (
               <img
-                key={image}
+                key={slide.image}
                 className={`barli-hero__slide ${index === activeHeroSlide ? 'is-active' : ''}`}
-                src={image}
+                src={slide.image}
                 alt=""
               />
             ))}
           </div>
+          <button
+            className="menu-trigger menu-trigger--hero"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen(true)}
+          >
+            <Menu aria-hidden="true" strokeWidth={2.1} />
+          </button>
+          <a className="hero-booking-link" href="#contact">
+            Book now <ChevronDown aria-hidden="true" />
+          </a>
           <motion.img
             className="barli-hero__logo"
             src={brandLogo}
@@ -373,13 +543,13 @@ function App() {
           >
             The Barli
           </motion.p>
+          <p className="barli-hero__eyebrow">Boutique Apartments, Jabi, Abuja</p>
           <motion.div
             className="barli-hero__inner"
             initial={{ opacity: 0, y: 28, clipPath: 'inset(0 0 100% 0)' }}
             animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
             transition={{ duration: 1.45, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="barli-hero__eyebrow">Boutique Apartments, Jabi, Abuja</p>
             <h1 id="hero-title" className="barli-hero__title">
               <em>Your private</em>
               <span>Space.</span>
@@ -438,7 +608,7 @@ function App() {
           variants={sectionReveal}
         >
           <motion.div className="section-shell" variants={containerReveal}>
-            <motion.div className="section-heading" variants={fadeUp}>
+            <motion.div className="section-heading rooms-section__heading" variants={fadeUp}>
               <div>
                 <h2 id="rooms-title">The Rooms</h2>
               </div>
@@ -471,18 +641,6 @@ function App() {
               <button className="rooms-slideshow__arrow rooms-slideshow__arrow--next" type="button" onClick={showNextRoomSlide} aria-label="Show next room image">
                 <ChevronRight aria-hidden="true" />
               </button>
-              <div className="rooms-slideshow__dots" aria-label="Choose a room image">
-                {roomSlides.map((slide, index) => (
-                  <button
-                    type="button"
-                    key={slide.image}
-                    className={index === activeRoomSlide ? 'is-active' : ''}
-                    onClick={() => setActiveRoomSlide(index)}
-                    aria-label={`Show room image ${index + 1}`}
-                    aria-current={index === activeRoomSlide ? 'true' : undefined}
-                  />
-                ))}
-              </div>
             </motion.div>
           </motion.div>
         </motion.section>
@@ -508,9 +666,9 @@ function App() {
                   className="amenity-card"
                   key={amenity.title}
                   variants={fadeUp}
-                  whileHover={{ y: -8, scale: 1.01 }}
                   transition={{ duration: 0.25 }}
                 >
+                  <img className="amenity-card__image" src={amenity.image} alt={amenity.alt} />
                   <div>
                     <h3>{amenity.title}</h3>
                     <p>{amenity.copy}</p>
@@ -533,12 +691,13 @@ function App() {
           <motion.div className="section-shell" variants={containerReveal}>
             <motion.article
               className="bed-breakfast-offer"
+              ref={breakfastOfferRef}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
             >
               <motion.div className="bed-breakfast-offer__image" variants={offerImageReveal}>
-                <img src={heroSlideSixteen} alt="Breakfast setting at The Barli" />
+                <img ref={breakfastMediaRef} src={heroSlideSixteen} alt="Breakfast setting at The Barli" />
               </motion.div>
               <motion.div className="bed-breakfast-offer__copy" variants={offerCopyReveal}>
                 <motion.p className="section-kicker" variants={offerCopyItemReveal}>The Barli Invitation</motion.p>
@@ -549,24 +708,36 @@ function App() {
                 <motion.p variants={offerCopyItemReveal}>
                   Mornings here are made to be savoured.
                 </motion.p>
-                <motion.a className="text-link" href="mailto:booking@thebarli.com" variants={offerCopyItemReveal}>
+                <motion.a className="text-link bed-breakfast-offer__desktop-booking" href="mailto:booking@thebarli.com" variants={offerCopyItemReveal}>
                   Book Now
                 </motion.a>
               </motion.div>
             </motion.article>
+            <a className="bed-breakfast-offer__mobile-booking" href="mailto:booking@thebarli.com">Book Now</a>
           </motion.div>
         </motion.section>
 
-        <motion.section
+        <section
           className="weddings-section"
           id="events"
           aria-labelledby="events-title"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={sectionReveal}
+          ref={eventsSectionRef}
         >
-          <motion.div className="section-shell wedding-grid wedding-grid--copy-only" variants={containerReveal}>
+          <img
+            className="events-parallax-media"
+            aria-hidden="true"
+            alt=""
+            src={eventsCelebration}
+            ref={eventsMediaRef}
+            decoding="async"
+          />
+          <motion.div
+            className="section-shell wedding-grid"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={containerReveal}
+          >
             <motion.div className="wedding-copy" variants={fadeUp}>
               <p className="section-kicker">Events at The Barli</p>
               <h2 id="events-title">For moments that <span>cannot be ordinary.</span></h2>
@@ -577,7 +748,7 @@ function App() {
               <p className="events-closing">Your occasion. Your people. Your space.</p>
             </motion.div>
           </motion.div>
-        </motion.section>
+        </section>
 
         <motion.section
           className="about-section"
@@ -589,8 +760,14 @@ function App() {
           variants={sectionReveal}
         >
           <motion.div className="section-shell about-grid" variants={containerReveal}>
-            <motion.div className="about-images" aria-hidden="true" variants={fadeUp}>
+            <motion.p className="section-kicker about-mobile-kicker" variants={fadeUp}>
+              About The Barli
+            </motion.p>
+            <motion.div className="about-images" variants={fadeUp}>
               <div className="about-images__main" />
+              <p className="about-images__mobile-title" aria-hidden="true">
+                Your private space <em>in Abuja.</em>
+              </p>
             </motion.div>
             <motion.div className="about-copy" variants={fadeUp}>
               <p className="section-kicker">About The Barli</p>
@@ -830,38 +1007,6 @@ function App() {
         />
       </motion.a>
 
-      <motion.nav
-        ref={bottomNavRef}
-        className="sticky-bottom-nav"
-        aria-label="Primary"
-        initial={{ y: 120 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 0.7, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="nav-icons">
-          {navItems.map((item, index) => (
-            <motion.a
-              href={item.href}
-              className="nav-item"
-              key={item.label}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.82 + index * 0.06,
-                duration: 0.45,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <span className="nav-item__icon" aria-hidden="true">
-                <item.Icon size={18} strokeWidth={1.9} />
-              </span>
-              <span>{item.label}</span>
-            </motion.a>
-          ))}
-        </div>
-      </motion.nav>
     </div>
   );
 }
