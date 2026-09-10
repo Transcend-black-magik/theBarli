@@ -20,7 +20,7 @@ import heroSlideFourteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 
 import heroSlideSixteen from './assets/hero-carousel/WhatsApp Image 2026-08-29 at 1.08.05 AM.jpeg';
 import heroBedroomRefined from './assets/hero-carousel/generated/hero-bedroom-refined.png';
 import heroLoungeRefined from './assets/hero-carousel/generated/hero-lounge-refined.png';
-import './App.css';
+import './App.css';/*  */
 
 const viewport = { once: true, amount: 0.18 };
 const cookieConsentStorageKey = 'thebarli-cookie-consent-v1';
@@ -55,25 +55,6 @@ const containerReveal = {
       staggerChildren: 0.07,
       delayChildren: 0.04,
     },
-  },
-};
-
-const keyFeatureListReveal = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.08,
-    },
-  },
-};
-
-const keyFeatureItemReveal = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -129,16 +110,11 @@ const roomSlides = [
 ];
 
 const amenityData = [
-  {
-    title: 'Infrastructure & Access',
-    imageClass: 'amenity-card--access',
-    features: ['24-Hour Power', 'Smart Keyless Entry', 'Reliable Security'],
-  },
-  {
-    title: 'Logistics & Concierge',
-    imageClass: 'amenity-card--concierge',
-    features: ['VIP Airport Pickup', 'Driver Accommodation'],
-  },
+  { title: '24 Hour Power', copy: 'Reliable power throughout your stay.' },
+  { title: 'Secure Keyless Entry', copy: 'Password protected access for easy, discreet entry.' },
+  { title: 'Private Airport Transfers', copy: 'Airport pickup can be arranged on request.' },
+  { title: 'Driver Accommodation', copy: 'Dedicated on site accommodation available for drivers.' },
+  { title: 'Arrival Support', copy: 'Assistance to help make your arrival smooth and straightforward.' },
 ];
 
 const attractions = [
@@ -170,22 +146,6 @@ const heroSlides = [
   heroSlideTwelve,
   heroSlideFourteen,
   heroSlideSixteen,
-];
-
-const keyFeatures = [
-  'Sleeps 2, super king bed',
-  'Minibar with coffee machine and tea',
-  'Complimentary welcome fruit basket',
-  'Complimentary breakfast',
-  'Access to guest lounge',
-  'Balcony and garden dining area',
-  'Secured parking',
-  'WhatsApp concierge service',
-  'VIP Airport Pickup',
-  'Driver Accommodation',
-  '24-Hour Power',
-  'Smart Keyless Entry',
-  'Reliable Security',
 ];
 
 const navItems = [
@@ -308,6 +268,7 @@ function App() {
     const emailBody = [
       `Name: ${formData.get('name')}`,
       `Email: ${formData.get('email')}`,
+      `Phone: ${formData.get('phone') || 'Not specified'}`,
       `Check-in date: ${formData.get('checkIn') || 'Not specified'}`,
       `Check-out date: ${formData.get('checkOut') || 'Not specified'}`,
       `Guests: ${formData.get('guests')}`,
@@ -404,15 +365,24 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.25, ease: [0.16, 1, 0.3, 1] }}
           />
+          <motion.p
+            className="barli-hero__brand-name"
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.16, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+          >
+            The Barli
+          </motion.p>
           <motion.div
             className="barli-hero__inner"
             initial={{ opacity: 0, y: 28, clipPath: 'inset(0 0 100% 0)' }}
             animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
             transition={{ duration: 1.45, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
+            <p className="barli-hero__eyebrow">Boutique Apartments, Jabi, Abuja</p>
             <h1 id="hero-title" className="barli-hero__title">
-              <span>Your space</span>
-              <span>Your privacy</span>
+              <em>Your private</em>
+              <span>Space.</span>
             </h1>
           </motion.div>
           <div className="barli-hero__controls">
@@ -438,15 +408,18 @@ function App() {
             <motion.div variants={fadeUp}>
               <p className="section-kicker">The Barli Experience</p>
               <h2 id="intro-title">
-                Urban &
-                <span>Modern Luxury</span>
+                Modern living,
+                <span>made to linger.</span>
               </h2>
             </motion.div>
             <motion.div className="intro-copy" variants={fadeUp}>
               <p>
-                The Barli was designed with the thoughtful intention to merge the dynamic urban
-                landscape of Abuja with fine luxury, sophisticated minimalism, and modern design for a
-                stay unlike anything you've experienced before.
+                Private apartments, thoughtful service, and a more personal way to experience Abuja.
+              </p>
+              <p>
+                The Barli brings together contemporary design, considered spaces and a thoughtful
+                approach to hospitality. From the way you arrive to the way you unwind, the details
+                are designed around your stay.
               </p>
               <a className="text-link" href="#amenities">
                 See all features
@@ -525,14 +498,14 @@ function App() {
         >
           <motion.div className="section-shell" variants={containerReveal}>
             <motion.div className="section-heading section-heading--center" variants={fadeUp}>
-              <p className="section-kicker">Features</p>
-              <h2 id="amenities-title">Designed For Seamless Stays</h2>
+              <p className="section-kicker">Features and Amenities</p>
+              <h2 id="amenities-title">Designed for <span>seamless stays.</span></h2>
             </motion.div>
 
             <motion.div className="amenities-grid" variants={containerReveal}>
               {amenityData.map((amenity) => (
                 <motion.article
-                  className={`amenity-card ${amenity.imageClass}`}
+                  className="amenity-card"
                   key={amenity.title}
                   variants={fadeUp}
                   whileHover={{ y: -8, scale: 1.01 }}
@@ -540,31 +513,12 @@ function App() {
                 >
                   <div>
                     <h3>{amenity.title}</h3>
-                    <ul className="amenity-card__features">
-                      {amenity.features.map((feature) => (
-                        <li key={feature}>{feature}</li>
-                      ))}
-                    </ul>
+                    <p>{amenity.copy}</p>
                   </div>
                 </motion.article>
               ))}
             </motion.div>
 
-            <motion.div className="amenity-highlights" variants={fadeUp}>
-              <p className="section-kicker">Key Features</p>
-              <motion.ul
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={keyFeatureListReveal}
-              >
-                {keyFeatures.map((feature) => (
-                  <motion.li key={feature} variants={keyFeatureItemReveal}>
-                    {feature}
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </motion.div>
           </motion.div>
         </motion.section>
 
@@ -587,10 +541,13 @@ function App() {
                 <img src={heroSlideSixteen} alt="Breakfast setting at The Barli" />
               </motion.div>
               <motion.div className="bed-breakfast-offer__copy" variants={offerCopyReveal}>
-                <motion.p className="section-kicker" variants={offerCopyItemReveal}>An Exclusive Stay</motion.p>
-                <motion.h2 id="bed-breakfast-title" variants={offerCopyItemReveal}>Bed &amp; Breakfast Offer</motion.h2>
+                <motion.p className="section-kicker" variants={offerCopyItemReveal}>The Barli Invitation</motion.p>
+                <motion.h2 id="bed-breakfast-title" variants={offerCopyItemReveal}>Mornings, <em>the Barli way.</em></motion.h2>
                 <motion.p variants={offerCopyItemReveal}>
-                  Enjoy a weekend escape or a quiet staycation in Abuja, with breakfast served on The Barli’s private balcony and garden dining area.
+                  Breakfast at The Barli is served wherever the morning takes you, in the comfort of your room, on the balcony, or at our garden dining area.
+                </motion.p>
+                <motion.p variants={offerCopyItemReveal}>
+                  Mornings here are made to be savoured.
                 </motion.p>
                 <motion.a className="text-link" href="mailto:booking@thebarli.com" variants={offerCopyItemReveal}>
                   Book Now
@@ -611,15 +568,13 @@ function App() {
         >
           <motion.div className="section-shell wedding-grid wedding-grid--copy-only" variants={containerReveal}>
             <motion.div className="wedding-copy" variants={fadeUp}>
-              <h2 id="events-title">Events at The Barli</h2>
-              <p className="quote-large">More than just a venue, where meaningful moments come together.</p>
+              <p className="section-kicker">Events at The Barli</p>
+              <h2 id="events-title">For moments that <span>cannot be ordinary.</span></h2>
               <p>
-                An elegant setting for intimate celebrations, private gatherings, and moments worth
-                making memorable.
+                From intimate celebrations to small private gatherings, The Barli offers a considered
+                setting for moments shared with the people who matter.
               </p>
-              <a className="primary-link" href="mailto:booking@thebarli.com">
-                Enquire Now
-              </a>
+              <p className="events-closing">Your occasion. Your people. Your space.</p>
             </motion.div>
           </motion.div>
         </motion.section>
@@ -638,12 +593,18 @@ function App() {
               <div className="about-images__main" />
             </motion.div>
             <motion.div className="about-copy" variants={fadeUp}>
-              <p className="section-kicker">A Private Abuja Address</p>
-              <h2 id="about-title">About Us</h2>
+              <p className="section-kicker">About The Barli</p>
+              <h2 id="about-title">Your private space <span>in Abuja.</span></h2>
               <p>
-                Every part of The Barli is composed for privacy, comfort, and calm. From secure access
-                and uninterrupted power to thoughtful dining and concierge support, the residence is
-                prepared for guests who expect the details to simply work.
+                Designed as a private space in Abuja, The Barli brings together contemporary
+                design, comfort and thoughtful attention to detail.
+              </p>
+              <p>
+                With secure access, reliable power and considered spaces throughout, everything is
+                designed to make your stay feel easy.
+              </p>
+              <p>
+                A place to settle in, switch off and feel at home.
               </p>
               <a className="text-link" href="#rooms">
                 Explore the rooms
@@ -663,12 +624,13 @@ function App() {
         >
           <motion.div className="section-shell attractions-grid" variants={containerReveal}>
             <motion.div className="attractions-copy" variants={fadeUp}>
-              <p className="section-kicker">Attractions</p>
-              <h2 id="attractions-title">Abuja Within Reach</h2>
+              <p className="section-kicker">Beyond The Barli</p>
+              <h2 id="attractions-title">Close to everything. <span>Away from the noise.</span></h2>
               <p>
-                The Barli is conveniently located near popular attractions, offering guests a blend of
-                cultural, natural, and recreational experiences right in the heart of the city.
+                From cultural landmarks and waterfront escapes to dining, business and leisure, some
+                of Abuja&apos;s most sought after destinations are within easy reach.
               </p>
+              <p className="attractions-closing">Explore the city. Then come back to somewhere quieter.</p>
             </motion.div>
             <motion.div className="attractions-list" variants={containerReveal}>
               {attractions.map((attraction) => (
@@ -702,10 +664,10 @@ function App() {
         >
           <motion.div className="section-shell contact-grid" variants={containerReveal}>
             <motion.div className="contact-intro" variants={fadeUp}>
-              <p className="section-kicker">Private Stays, Thoughtfully Planned</p>
-              <h2 id="contact-title">Plan Your Stay</h2>
+              <p className="section-kicker">Bookings</p>
+              <h2 id="contact-title">Your stay <span>starts here.</span></h2>
               <p>
-                Tell us a little about your visit and our bookings team will help curate your stay at The Barli.
+                Tell us a little about your visit and our bookings team will take care of the details.
               </p>
             </motion.div>
 
@@ -718,6 +680,10 @@ function App() {
                 <label>
                   <span>Email Address</span>
                   <input name="email" type="email" autoComplete="email" required />
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input name="phone" type="tel" autoComplete="tel" />
                 </label>
                 <label>
                   <span>Check-in Date</span>
