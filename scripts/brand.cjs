@@ -10,5 +10,5 @@ const sharp = require('sharp');
   header.writeUInt16LE(1, 10); header.writeUInt16LE(32, 12);
   header.writeUInt32LE(png.length, 14); header.writeUInt32LE(22, 18);
   await fs.writeFile('public/favicon.ico', Buffer.concat([header, png]));
-  await sharp('src/assets/landscape-images/WhatsApp Image 2026-09-09 at 1.31.40 PM.jpeg').resize(1200, 630).jpeg({ quality: 85 }).toFile('public/social-hero.jpg');
+  await sharp('src/assets/rooms/generated/room-desktop-02.png').resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 88 }).toFile('public/og-image.jpg');
 })().catch(error => { console.error(error); process.exitCode = 1; });
