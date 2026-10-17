@@ -376,7 +376,7 @@ function App() {
         >
           <Menu aria-hidden="true" strokeWidth={1.35} />
         </button>
-        <a className="brand-lockup" href="#home" aria-label="The Barli home">
+        <a className="brand-lockup" href="#home" aria-label="The BARLI Hotel and Apartments home">
           <motion.img
             src={brandLogo}
             className="brand-mark"
@@ -492,8 +492,8 @@ function App() {
             transition={{ duration: 1.45, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
             <h1 id="hero-title" className="barli-hero__title">
-              <em>Your private</em>
-              <span>Space.</span>
+              <em>The BARLI Hotel</em>
+              <span>and Apartments</span>
             </h1>
           </motion.div>
           <div className="barli-hero__controls">
@@ -837,6 +837,11 @@ function App() {
           <a href="https://www.instagram.com/thebarli.abuja?utm_source=qr&igsi=MXBwNHV1N2NnMXcxZQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="none" stroke="currentColor" strokeWidth="2" d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Zm8.75 4.25h.01M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+            </svg>
+          </a>
+          <a href={site.socialProfiles.find((profile) => profile.includes('tiktok.com'))} target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.2V2h-3.65v13.67a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 1 1 2.9-2.9v-3.72a6.55 6.55 0 1 0 3.65 5.87V9.25a8.45 8.45 0 0 0 4.94 1.59V7.2a4.84 4.84 0 0 1-1.17-.51Z" />
             </svg>
           </a>
           <a href="https://www.facebook.com/share/1JHVX1qVWv/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Follow The Barli on Facebook">

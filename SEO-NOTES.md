@@ -6,7 +6,7 @@ Alternatively, use installed Chrome in PowerShell with `$env:PRERENDER_CHROME_CH
 
 Update room descriptions and FAQ entries in `src/siteContent.json`. The structured data currently uses the supplied ₦200,000–₦400,000 range, 2:00 pm check-in and 12:00 noon check-out. Confirm those values before publishing if they have changed. The shared preview image at `/og-image.jpg` is generated from the Executive Suite wide shot at 1200×630 by `scripts/brand.cjs`.
 
-The homepage title is “The Barli Hotel & Apartments | Luxury Shortlet in Jabi, Abuja”. Its description mentions Jabi Lake Mall and VIP airport pickup. Each rendered page gets canonical, Open Graph and Twitter metadata. The homepage JSON-LD is a Hotel with address, phone, email, rate range, check-in/out, 24-hour opening specification, amenities, image and Instagram, TikTok and Facebook profile links. The HTML template includes a useful server/source fallback plus a `<noscript>` block with the hotel's name, address, phone, email and stay details.
+The homepage title is “The BARLI Hotel and Apartments | Luxury Shortlet in Jabi, Abuja”. Its description mentions Jabi Lake Mall and VIP airport pickup. Each rendered page gets canonical, Open Graph and Twitter metadata. The homepage JSON-LD is a Hotel with address, phone, email, rate range, check-in/out, 24-hour opening specification, amenities, image and Instagram, TikTok and Facebook profile links. The HTML template includes a useful server/source fallback plus a `<noscript>` block with the hotel's name, address, phone, email and stay details.
 
 `public/robots.txt`:
 
