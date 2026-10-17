@@ -2,23 +2,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
 import brandLogo from './assets/logo.png';
-import roomImage01 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.40 PM.jpeg';
-import roomImage02 from './assets/rooms/generated/room-desktop-02.png';
-import roomImage03 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.42 PM.jpeg';
-import roomImage04 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (1).jpeg';
-import roomImage05 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (2).jpeg';
-import roomImage06 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM (3).jpeg';
-import roomImage07 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.43 PM.jpeg';
-import roomImage08 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM (1).jpeg';
-import roomImage09 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM (2).jpeg';
-import roomImage10 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.44 PM.jpeg';
-import roomImage11 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM (1).jpeg';
-import roomImage12 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM (2).jpeg';
-import roomImage13 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.46 PM.jpeg';
-import roomImage14 from './assets/rooms/generated/room-desktop-14.png';
-import roomImage15 from './assets/rooms/generated/room-desktop-15.png';
-import roomImage16 from './assets/rooms/WhatsApp Image 2026-09-09 at 1.31.51 PM (3).jpeg';
-import roomImage17 from './assets/rooms/generated/room-desktop-17.png';
 import diningImage from './assets/dining.jpeg';
 import amenityPower from './assets/amenities/power.png';
 import amenityKeylessEntry from './assets/amenities/keyless-entry.png';
@@ -26,7 +9,7 @@ import amenityAirportTransfer from './assets/amenities/airport-transfer.png';
 import amenityArrivalSupport from './assets/amenities/arrival-support.png';
 import gardenImage from './assets/garden4.jpeg';
 import './App.css';
-import { PageLinks } from './ContentPage';
+import { RoomCards } from './ContentPage';
 import site from './siteContent.json';
 
 const viewport = { once: true, amount: 0.18 };
@@ -45,6 +28,12 @@ const navigationLinks = [
   { href: '#events', label: 'Events' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
+  { href: '/shortlet-in-jabi', label: 'Shortlet in Jabi' },
+  { href: '/rooms/executive-suite', label: 'Executive Suite' },
+  { href: '/rooms/prestige-room', label: 'Prestige Room' },
+  { href: '/rooms/deluxe-room', label: 'Deluxe Room' },
+  { href: '/rooms/comfort-room', label: 'Comfort Room' },
+  { href: '/faq', label: 'FAQs' },
 ];
 
 const fadeUp = {
@@ -108,12 +97,6 @@ const offerCopyItemReveal = {
   },
 };
 
-const roomSlides = [
-  roomImage01, roomImage02, roomImage03, roomImage04, roomImage05, roomImage06,
-  roomImage07, roomImage08, roomImage09, roomImage10, roomImage11, roomImage12,
-  roomImage13, roomImage14, roomImage15, roomImage16, roomImage17,
-].map((image) => ({ image, title: 'The Barli Rooms' }));
-
 const amenityData = [
   { title: '24 Hour Power', copy: 'Reliable power throughout your stay.', image: amenityPower, alt: 'Warmly lit apartment living room' },
   { title: 'Secure Keyless Entry', copy: 'Password protected access for easy, discreet entry.', image: amenityKeylessEntry, alt: 'Smart lock at an apartment entrance' },
@@ -137,7 +120,6 @@ const attractions = [
 ];
 
 function App() {
-  const [activeRoomSlide, setActiveRoomSlide] = useState(0);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(() => window.matchMedia('(max-width: 760px)').matches);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -150,15 +132,6 @@ function App() {
   const eventsMediaRef = useRef(null);
   const breakfastOfferRef = useRef(null);
   const breakfastMediaRef = useRef(null);
-  const roomSlideshowTouchStart = useRef(null);
-
-  useEffect(() => {
-    const slideTimer = window.setInterval(() => {
-      setActiveRoomSlide((currentSlide) => (currentSlide + 1) % roomSlides.length);
-    }, 5000);
-
-    return () => window.clearInterval(slideTimer);
-  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -329,34 +302,12 @@ function App() {
     setIsCookiePanelVisible(true);
   }, []);
 
-  const showPreviousRoomSlide = () => {
-    setActiveRoomSlide((currentSlide) => (currentSlide - 1 + roomSlides.length) % roomSlides.length);
-  };
-
-  const showNextRoomSlide = () => {
-    setActiveRoomSlide((currentSlide) => (currentSlide + 1) % roomSlides.length);
-  };
-
   const showPreviousHeroSlide = () => {
     setActiveHeroSlide((currentSlide) => (currentSlide - 1 + heroSlides.length) % heroSlides.length);
   };
 
   const showNextHeroSlide = () => {
     setActiveHeroSlide((currentSlide) => (currentSlide + 1) % heroSlides.length);
-  };
-
-  const handleRoomSlideshowTouchStart = (event) => {
-    roomSlideshowTouchStart.current = event.touches[0].clientX;
-  };
-
-  const handleRoomSlideshowTouchEnd = (event) => {
-    if (roomSlideshowTouchStart.current === null) return;
-
-    const horizontalDistance = event.changedTouches[0].clientX - roomSlideshowTouchStart.current;
-    if (Math.abs(horizontalDistance) > 40) {
-      horizontalDistance < 0 ? showNextRoomSlide() : showPreviousRoomSlide();
-    }
-    roomSlideshowTouchStart.current = null;
   };
 
   const handleBookingRequest = (event) => {
@@ -604,33 +555,7 @@ function App() {
               </div>
             </motion.div>
 
-            <PageLinks />
-
-            <motion.div
-              className="rooms-slideshow"
-              variants={fadeUp}
-              aria-roledescription="carousel"
-              aria-label="The Barli room slideshow"
-              onTouchStart={handleRoomSlideshowTouchStart}
-              onTouchEnd={handleRoomSlideshowTouchEnd}
-            >
-              <motion.img
-                key={roomSlides[activeRoomSlide].image}
-                className="rooms-slideshow__image"
-                src={roomSlides[activeRoomSlide].image}
-                alt={`${roomSlides[activeRoomSlide].title} at The Barli, Abuja`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              />
-              <div className="rooms-slideshow__scrim" aria-hidden="true" />
-              <button className="rooms-slideshow__arrow rooms-slideshow__arrow--previous" type="button" onClick={showPreviousRoomSlide} aria-label="Show previous room image">
-                <ChevronLeft aria-hidden="true" />
-              </button>
-              <button className="rooms-slideshow__arrow rooms-slideshow__arrow--next" type="button" onClick={showNextRoomSlide} aria-label="Show next room image">
-                <ChevronRight aria-hidden="true" />
-              </button>
-            </motion.div>
+            <motion.div variants={fadeUp}><RoomCards /></motion.div>
           </motion.div>
         </motion.section>
 

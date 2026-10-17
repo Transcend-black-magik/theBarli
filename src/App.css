@@ -1,14 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Italiana&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
-.content-links { display: flex; flex-wrap: wrap; gap: 16px 24px; padding: 24px 0; }
-.content-links a, .content-page a { color: #d4b46f; }
-.rooms-section .content-links a { color: #715322; }
-.content-header { padding: 24px; border-bottom: 1px solid #55462e; }
-.content-header img { width: 100px; height: 100px; object-fit: contain; }
-.content-page main { padding-top: 64px; padding-bottom: 64px; max-width: 960px; }
-.content-page h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 64px); }
-.content-page h2 { margin-top: 40px; font-size: 26px; }
-.content-page p, .content-page li, .content-page address { line-height: 1.8; max-width: 720px; }
+.content-page a { color: #c6a66b; }
+.content-header { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; min-height: 96px; padding: 14px clamp(22px, 5vw, 76px); border-bottom: 1px solid rgba(215, 188, 136, 0.25); background: #090909; }
+.content-brand { display: inline-flex; align-items: center; gap: 14px; color: #f4efe7 !important; font-family: 'Italiana', Georgia, serif; font-size: 1.1rem; letter-spacing: .16em; text-decoration: none; }
+.content-brand img { width: 48px; height: 48px; object-fit: contain; }
+.content-brand small { display: block; margin-top: 5px; color: #c6a66b; font: 500 .55rem 'Inter', sans-serif; letter-spacing: .24em; }
+.content-booking { padding: 13px 19px; border: 1px solid #c6a66b; color: #e4d0a6 !important; font-size: .68rem; font-weight: 600; letter-spacing: .13em; text-decoration: none; text-transform: uppercase; transition: background .2s ease, color .2s ease; }
+.content-booking:hover { background: #c6a66b; color: #090909 !important; }
+.content-main { padding-bottom: 72px; }
+.content-hero { position: relative; display: flex; align-items: end; min-height: clamp(410px, 58vw, 650px); overflow: hidden; background: #181510; }
+.content-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.content-hero__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,.82), rgba(5,5,5,.36) 56%, rgba(5,5,5,.06)), linear-gradient(0deg, rgba(5,5,5,.48), transparent 55%); }
+.content-hero__copy { position: relative; z-index: 1; width: min(100%, 1220px); margin: 0 auto; padding: 76px 24px clamp(46px, 8vw, 96px); }
+.content-hero__copy .section-kicker { color: #dec28a; font-size: .67rem; letter-spacing: .2em; }
+.content-hero h1 { max-width: 850px; margin: 14px 0 18px; color: #fff; font: 400 clamp(3rem, 8vw, 6.7rem)/.98 'Playfair Display', Georgia, serif; }
+.content-hero__copy > p:last-child { max-width: 650px; margin: 0; color: rgba(255,255,255,.86); font-size: clamp(.95rem, 1.7vw, 1.12rem); line-height: 1.75; }
+.content-body { padding-top: 58px; padding-bottom: 30px; }
+.content-body > p, .content-body li, .content-body address, .content-body > section > p { max-width: 760px; color: #e9e4dc; font-size: 1rem; line-height: 1.85; }
+.content-body h2 { margin: 42px 0 14px; color: #f4efe7; font: 400 clamp(1.65rem, 3vw, 2.4rem) 'Playfair Display', Georgia, serif; }
+.content-body address { font-style: normal; }
+.content-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 54px 0 0; padding: 24px 0; border-top: 1px solid rgba(215,188,136,.25); }
+.content-links a { padding: 11px 15px; border: 1px solid rgba(215,188,136,.35); color: #ead9b5 !important; font-size: .72rem; letter-spacing: .03em; text-decoration: none; transition: background .2s ease, border-color .2s ease; }
+.content-links a:hover { border-color: #c6a66b; background: rgba(198,166,107,.12); }
+.content-footer { display: flex; justify-content: space-between; gap: 18px; padding: 28px clamp(22px, 5vw, 76px); border-top: 1px solid rgba(215,188,136,.2); color: #b7ac98; font-size: .62rem; letter-spacing: .12em; }
+.content-related .section-kicker { color: #d6b979; font-size: .68rem; letter-spacing: .18em; }
+.stay-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 17px; width: min(100% - 48px, 1320px); margin: 0 auto; }
+.stay-card { position: relative; display: flex; min-height: 310px; flex-direction: column; justify-content: end; overflow: hidden; padding: 22px; background: #15130f; color: #fff !important; text-decoration: none; isolation: isolate; }
+.stay-card::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(9,8,6,.88), rgba(9,8,6,.06) 78%); content: ''; transition: background .25s ease; }
+.stay-card img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.stay-card:hover img { transform: scale(1.05); }
+.stay-card__number { margin-bottom: auto; color: #ead29b; font-size: .66rem; letter-spacing: .15em; }
+.stay-card__title { font: 400 clamp(1.3rem, 2vw, 1.8rem) 'Playfair Display', Georgia, serif; }
+.stay-card__action { display: flex; justify-content: space-between; margin-top: 13px; padding-top: 13px; border-top: 1px solid rgba(255,255,255,.38); color: #e4d0a6; font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; }
+.rooms-section .stay-grid { width: min(100% - 48px, 1320px); }
+
+@media (max-width: 900px) {
+  .stay-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .stay-card { min-height: 285px; }
+}
+
+@media (max-width: 760px) {
+  .rooms-section { padding: 68px 0; }
+  .rooms-section .section-shell { padding: 0; }
+  .rooms-section__heading { position: static; width: min(100% - 40px, 1320px); height: auto; overflow: visible; clip: auto; margin: 0 auto 24px; white-space: normal; }
+  .rooms-section__heading h2 { font-size: clamp(2.15rem, 9vw, 3.2rem); }
+  .rooms-section .stay-grid { width: calc(100% - 32px); gap: 10px; }
+  .stay-card { min-height: 250px; padding: 16px; }
+  .stay-card__title { font-size: clamp(1.1rem, 5vw, 1.55rem); }
+  .content-header { min-height: 76px; padding: 10px 18px; }
+  .content-brand img { width: 42px; height: 42px; }
+  .content-booking { padding: 11px 12px; font-size: .58rem; }
+  .content-hero { min-height: 480px; }
+  .content-hero__copy { padding: 56px 22px 42px; }
+  .content-body { padding-top: 38px; }
+  .content-footer { flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .stay-grid { grid-template-columns: 1fr; }
+  .stay-card { min-height: 300px; }
+}
 
 .barli-app {
   min-height: 100vh;
@@ -163,6 +214,7 @@ main > section {
   width: min(88vw, 410px);
   flex-direction: column;
   padding: 28px clamp(26px, 4vw, 48px) 36px;
+  overflow-y: auto;
   background: #10100f;
   box-shadow: 18px 0 70px rgba(0, 0, 0, 0.42);
 }
@@ -195,6 +247,7 @@ main > section {
 
 .navigation-drawer nav {
   display: grid;
+  overflow-y: auto;
   gap: 8px;
 }
 
