@@ -1,0 +1,23 @@
+{
+  "name": "THE BARLI",
+  "origin": "https://thebarli.com",
+  "address": "29 Asheik Jarma Street, Jabi, Abuja",
+  "phone": "+234 916 700 0099",
+  "priceRange": null,
+  "amenities": ["24 Hour Power", "Secure Keyless Entry", "Private Airport Transfers on request", "Arrival Support"],
+  "pages": [
+    {"path": "/", "title": "THE BARLI | Luxury Residence in Jabi, Abuja", "description": "Private apartments and thoughtful hospitality at THE BARLI, 29 Asheik Jarma Street, Jabi, Abuja. Contact our bookings team for availability and rates."},
+    {"path": "/rooms/executive-suite", "name": "Executive Suite", "title": "Executive Suite in Jabi, Abuja | THE BARLI", "description": "Ask about the Executive Suite at THE BARLI in Jabi, Abuja. Contact our bookings team for room details, availability and current rates."},
+    {"path": "/rooms/prestige-room", "name": "Prestige Room", "title": "Prestige Room in Jabi, Abuja | THE BARLI", "description": "Ask about the Prestige Room at THE BARLI in Jabi, Abuja. Contact our bookings team for room details, availability and current rates."},
+    {"path": "/rooms/deluxe-room", "name": "Deluxe Room", "title": "Deluxe Room in Jabi, Abuja | THE BARLI", "description": "Ask about the Deluxe Room at THE BARLI in Jabi, Abuja. Contact our bookings team for room details, availability and current rates."},
+    {"path": "/rooms/comfort-room", "name": "Comfort Room", "title": "Comfort Room in Jabi, Abuja | THE BARLI", "description": "Ask about the Comfort Room at THE BARLI in Jabi, Abuja. Contact our bookings team for room details, availability and current rates."},
+    {"path": "/shortlet-in-jabi", "name": "Shortlet in Jabi", "title": "Shortlet in Jabi, Abuja | THE BARLI", "description": "Stay at THE BARLI in Jabi, Abuja: private apartments, 24 hour power, secure keyless entry and arrival support. Enquire about your stay."},
+    {"path": "/faq", "name": "Frequently Asked Questions", "title": "Frequently Asked Questions | THE BARLI Abuja", "description": "Find THE BARLI's address, booking contact, room options and available amenities in Jabi, Abuja."}
+  ],
+  "faq": [
+    {"question": "Where is THE BARLI?", "answer": "THE BARLI is at 29 Asheik Jarma Street, Jabi, Abuja, Nigeria."},
+    {"question": "How do I book a stay?", "answer": "Contact our bookings team on +234 916 700 0099 by phone or WhatsApp to confirm availability and current rates."},
+    {"question": "What rooms can I enquire about?", "answer": "Ask our team about the Executive Suite, Prestige Room, Deluxe Room and Comfort Room."},
+    {"question": "What amenities are available?", "answer": "THE BARLI offers 24 hour power, secure keyless entry and arrival support. Private airport transfers can be arranged on request."}
+  ]
+}

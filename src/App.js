@@ -26,9 +26,13 @@ import amenityAirportTransfer from './assets/amenities/airport-transfer.png';
 import amenityArrivalSupport from './assets/amenities/arrival-support.png';
 import gardenImage from './assets/garden4.jpeg';
 import './App.css';
+import { PageLinks } from './ContentPage';
+import site from './siteContent.json';
 
 const viewport = { once: true, amount: 0.18 };
 const cookieConsentStorageKey = 'thebarli-cookie-consent-v1';
+const whatsappNumber = '2349167000099';
+const whatsappLink = (message) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 const landscapeHeroContext = require.context('./assets/landscape-images', false, /\.jpe?g$/i);
 const portraitHeroContext = require.context('./assets/porttrait-images', false, /\.jpe?g$/i);
 const createSlides = (context) => context.keys().sort().map((key) => ({ image: context(key) }));
@@ -369,20 +373,13 @@ function App() {
       'Stay details:',
       formData.get('message') || 'Not specified',
     ].join('\n');
-    const params = new URLSearchParams({ subject: 'Booking enquiry — The Barli', body: emailBody });
-
-    window.location.href = `mailto:booking@thebarli.com?${params.toString()}`;
+    window.location.href = whatsappLink(`Booking enquiry — The Barli\n\n${emailBody}`);
   };
 
   const handleNewsletterSignup = (event) => {
     event.preventDefault();
     const email = new FormData(event.currentTarget).get('newsletter-email');
-    const params = new URLSearchParams({
-      subject: 'Newsletter subscription — The Barli',
-      body: `Please add ${email} to The Barli newsletter.`,
-    });
-
-    window.location.href = `mailto:admin@thebarli.com?${params.toString()}`;
+    window.location.href = whatsappLink(`Newsletter subscription — The Barli\n\nPlease add ${email} to the newsletter.`);
   };
 
   const saveCookieConsent = (analytics) => {
@@ -490,7 +487,7 @@ function App() {
                   </motion.a>
                 ))}
               </nav>
-              <a className="navigation-drawer__booking" href="mailto:booking@thebarli.com">Make a booking</a>
+              <a className="navigation-drawer__booking" href={whatsappLink('Hello The Barli, I would like to make a booking.')}>Make a booking</a>
             </motion.aside>
           </>
         )}
@@ -607,6 +604,8 @@ function App() {
               </div>
             </motion.div>
 
+            <PageLinks />
+
             <motion.div
               className="rooms-slideshow"
               variants={fadeUp}
@@ -698,12 +697,12 @@ function App() {
                 <motion.p variants={offerCopyItemReveal}>
                   Mornings here are made to be savoured.
                 </motion.p>
-                <motion.a className="text-link bed-breakfast-offer__desktop-booking" href="mailto:booking@thebarli.com" variants={offerCopyItemReveal}>
+                <motion.a className="text-link bed-breakfast-offer__desktop-booking" href={whatsappLink('Hello The Barli, I would like to book a stay.')} variants={offerCopyItemReveal}>
                   Book Now
                 </motion.a>
               </motion.div>
             </motion.article>
-            <a className="bed-breakfast-offer__mobile-booking" href="mailto:booking@thebarli.com">Book Now</a>
+            <a className="bed-breakfast-offer__mobile-booking" href={whatsappLink('Hello The Barli, I would like to book a stay.')}>Book Now</a>
           </motion.div>
         </motion.section>
 
@@ -889,9 +888,11 @@ function App() {
                 </form>
               </div>
               <div className="support-card">
+                <address>{site.address}, Nigeria</address>
+                <a href="tel:+2349167000099">{site.phone}</a>
                 <p className="section-kicker">Need Assistance?</p>
                 <h3>Contact Support</h3>
-                <a href="mailto:admin@thebarli.com">admin@thebarli.com</a>
+                <a href={whatsappLink('Hello The Barli, I need assistance.')}>Chat with us on WhatsApp</a>
               </div>
             </motion.aside>
           </motion.div>

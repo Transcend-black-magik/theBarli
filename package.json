@@ -16,9 +16,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/prerender.cjs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "verify:seo": "node scripts/verify-seo.cjs",
+    "eject": "react-scripts eject",
+    "prebuild": "node scripts/brand.cjs"
   },
   "eslintConfig": {
     "extends": [
@@ -37,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1",
+    "sharp": "^0.35.5"
   }
 }

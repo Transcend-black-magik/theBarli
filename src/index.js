@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import ContentPage from './ContentPage';
+import site from './siteContent.json';
 import reportWebVitals from './reportWebVitals';
 
+const path = window.location.pathname.replace(/\/$/, '') || '/';
+const page = site.pages.find(item => item.path === path);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {path === '/' ? <App /> : page ? <ContentPage page={page} /> : <main><h1>Page not found</h1><a href="/">Return to THE BARLI</a></main>}
   </React.StrictMode>
 );
 

@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "site": "the-barli-latest",
+    "public": "legacy-redirect",
+    "redirects": [
+      { "source": "/:path*", "destination": "https://thebarli.com/:path", "type": 301 }
+    ]
+  }
+}
