@@ -30,6 +30,10 @@ async function main() {
       await page.goto(`http://127.0.0.1:${server.address().port}${entry.path}`, { waitUntil: 'networkidle' });
       await page.waitForSelector('main h1');
       await page.evaluate(({ entry, site }) => {
+        // The SPA already emitted root-page SEO tags from public/index.html.
+        // Remove them before adding route-specific tags so each prerendered page
+        // has one canonical, description, and set of social preview fields.
+        document.head.querySelectorAll('meta[name="description"], link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"]').forEach(element => element.remove());
         document.title = entry.title;
         const add = (tag, attributes) => {
           const element = document.createElement(tag);
@@ -44,7 +48,7 @@ async function main() {
         add('meta', { name: 'geo.placename', content: 'Jabi, Abuja' });
         for (const [name, content] of Object.entries({ 'twitter:card': 'summary_large_image', 'twitter:title': entry.title, 'twitter:description': entry.description, 'twitter:image': site.origin + site.ogImage, 'twitter:image:alt': 'Executive Suite at The BARLI Hotel and Apartments, Jabi, Abuja' })) add('meta', { name, content });
         if (entry.path === '/') {
-          const schema = { '@context': 'https://schema.org', '@type': 'Hotel', '@id': site.origin + '/#hotel', name: site.name, url: site.origin + '/', telephone: site.phone, email: site.email, description: site.description, priceRange: site.priceRange, checkinTime: site.checkinTime, checkoutTime: site.checkoutTime, openingHoursSpecification: site.openingHoursSpecification, address: { '@type': 'PostalAddress', streetAddress: '29 Asheik Jarma Street, Jabi', addressLocality: 'Abuja', addressRegion: 'Federal Capital Territory', postalCode: '900108', addressCountry: 'NG' }, image: [site.origin + site.ogImage], photo: [site.origin + site.ogImage], amenityFeature: site.amenities.map(name => ({ '@type': 'LocationFeatureSpecification', name, value: true })), sameAs: site.socialProfiles };
+          const schema = { '@context': 'https://schema.org', '@type': 'Hotel', '@id': site.origin + '/#hotel', name: site.name, url: site.origin + '/', telephone: site.phone, email: site.email, description: site.description, priceRange: site.priceRange, checkinTime: site.checkinTime, checkoutTime: site.checkoutTime, openingHoursSpecification: site.openingHoursSpecification, address: { '@type': 'PostalAddress', streetAddress: '29 Asheik Jarma Street, Jabi', addressLocality: 'Abuja', addressRegion: 'Federal Capital Territory', postalCode: '900108', addressCountry: 'NG' }, geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude }, image: [site.origin + site.ogImage], photo: [site.origin + site.ogImage], amenityFeature: site.amenities.map(name => ({ '@type': 'LocationFeatureSpecification', name, value: true })), sameAs: [...site.socialProfiles, ...site.bookingProfiles] };
           const script = document.createElement('script'); script.type = 'application/ld+json'; script.textContent = JSON.stringify(schema); document.head.append(script);
         }
         document.querySelectorAll('main [style], footer[style], footer [style]').forEach(element => {

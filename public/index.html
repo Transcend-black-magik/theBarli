@@ -28,9 +28,32 @@
     <meta name="twitter:description" content="Luxury suites in Jabi, Abuja. 24-hour front desk, in-house chef, free parking, airport pickup.">
     <meta name="twitter:image" content="https://thebarli.com/og-image.jpg">
     <script src="%PUBLIC_URL%/canonical-host.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-5RJJXW4W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GTM-5RJJXW4W');
+    </script>
     <title>The BARLI Hotel and Apartments | Luxury Shortlet in Jabi, Abuja</title>
   </head>
   <body>
+    <script>
+      document.addEventListener('click', function(event) {
+        var link = event.target.closest('a[href]');
+        if (!link) return;
+        try {
+          var host = new URL(link.href, window.location.href).hostname;
+          if (host === 'wa.me' || host === 'api.whatsapp.com') {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'whatsapp_click', link_url: link.href });
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'conversion', { send_to: 'GTM-5RJJXW4W', link_url: link.href });
+            }
+          }
+        } catch (error) {}
+      }, true);
+    </script>
     <div id="root">
       <main>
         <h1>The BARLI Hotel and Apartments</h1>

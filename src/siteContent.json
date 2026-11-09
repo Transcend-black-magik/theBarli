@@ -15,12 +15,16 @@
     "https://www.tiktok.com/@thebarlihotel",
     "https://www.facebook.com/Barliapartments"
   ],
+  "bookingProfiles": [
+    "https://www.booking.com/hotel/ng/the-barli-amp-apartments.html"
+  ],
+  "geo": { "latitude": 9.06808, "longitude": 7.42726, "precision": "approximate street location" },
   "ogImage": "/og-image.jpg",
-  "description": "Luxury boutique hotel and apartments in Jabi, Abuja, beside Jabi Lake Mall. Spacious suites with super-king beds, 24-hour front desk and security, generator, free secured parking, in-house chef, complimentary breakfast for two and VIP airport pickup on request.",
+  "description": "Luxury boutique hotel and apartments in Jabi, Abuja, beside Jabi Lake Mall. Spacious suites with super-king beds, 24-hour kitchen, 24-hour front desk and security, backup generator, free Wi-Fi, free secured parking, in-house chef and VIP airport pickup on request. Breakfast is included when booked with the room.",
   "origin": "https://thebarli.com",
   "address": "29 Asheik Jarma Street, Jabi, Abuja",
   "phone": "+234 916 700 0099",
-  "amenities": ["Free Wi-Fi", "Free secured parking", "Air conditioning", "24-hour front desk", "24-hour security", "Backup generator", "In-house chef and kitchen", "Laundry service", "Garden", "VIP airport pickup on request", "Complimentary breakfast for two"],
+  "amenities": ["24-hour kitchen", "Breakfast available and included when booked with the room", "Free Wi-Fi", "Free secured parking", "Air conditioning", "24-hour front desk", "24-hour security", "Backup generator", "In-house chef", "Laundry service", "Garden", "VIP airport pickup on request"],
   "pages": [
     {"path": "/", "title": "The BARLI Hotel and Apartments | Luxury Shortlet in Jabi, Abuja", "description": "Luxury boutique hotel and apartments in Jabi, Abuja, beside Jabi Lake Mall. Spacious suites, 24-hour front desk, in-house chef, free secured parking and VIP airport pickup. Book direct."},
     {"path": "/rooms/executive-suite", "name": "Executive Suite", "title": "Executive Suite in Jabi, Abuja | THE BARLI", "description": "Ask about the Executive Suite at THE BARLI in Jabi, Abuja. Contact our bookings team for room details, availability and current rates."},

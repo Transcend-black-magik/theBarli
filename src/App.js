@@ -17,10 +17,53 @@ const cookieConsentStorageKey = 'thebarli-cookie-consent-v1';
 const whatsappNumber = '2349167000099';
 const whatsappLink = (message) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 const landscapeHeroContext = require.context('./assets/landscape-images', false, /\.jpe?g$/i);
-const portraitHeroContext = require.context('./assets/porttrait-images', false, /\.jpe?g$/i);
-const createSlides = (context) => context.keys().sort().map((key) => ({ image: context(key) }));
-const desktopHeroSlides = createSlides(landscapeHeroContext);
-const mobileHeroSlides = [...desktopHeroSlides, ...createSlides(portraitHeroContext)];
+const portraitHeroContext = require.context('./assets/portrait-images', false, /\.jpe?g$/i);
+const createSlides = (context, descriptions) => context.keys().sort().map((key, index) => ({ image: context(key), alt: descriptions[index] }));
+const landscapeHeroDescriptions = [
+  'Guest room with a desk, television, and lounge chair',
+  'King bed and sitting area in a bright guest room',
+  'Wide view of a suite with king bed and sofa',
+  'Suite entry beside the bathroom vanity',
+  'In-room coffee and refreshment station',
+  'Guest room with television and king bed',
+  'King bed with a sitting area and warm ceiling lighting',
+  'Guest room desk and lounge area',
+  'Suite with sofa, king bed, and chandelier',
+  'Bright room with bed, sofa, and television',
+  'King bed and armchair in a spacious suite',
+  'Suite lounge with sofa and king bed',
+  'Hotel suite with seating and bedroom area',
+  'Marble bathroom vanity and round mirror',
+  'Suite lounge and entry at The BARLI',
+  'King bed with a window-side sitting area',
+  'Guest room lounge and television',
+  'View through a suite toward its lounge area',
+  'Wide-angle suite with sofa and king bed',
+  'Lounge chair beneath framed artwork',
+  'Living area with sofa and warm architectural lighting',
+  'Welcome card placed on a freshly made guest bed',
+];
+const portraitHeroDescriptions = [
+  'Walk-in shower in a marble bathroom',
+  'Bathroom towel and tissue holder',
+  'Welcome card prepared for an arriving guest',
+  'Tea and coffee setup in a guest room',
+  'Suite seating beside a king bed',
+  'Bedroom and lounge in a guest suite',
+  'King bed with bedside lighting',
+  'Marble bathroom with vanity and shower',
+  'Wardrobe and dressing area in a guest room',
+  'Bedside table and pendant light beside the bed',
+  'Modern bathroom sink and shower enclosure',
+  'Fresh towels arranged in the bathroom',
+  'Bathroom counter and guest amenities',
+  'Guest bathroom vanity with round mirror',
+  'Bedroom view toward the suite lounge',
+  'Guest room with bed and warm ceiling lighting',
+  'Bathroom vanity with basin and mirror',
+];
+const desktopHeroSlides = createSlides(landscapeHeroContext, landscapeHeroDescriptions);
+const mobileHeroSlides = [...desktopHeroSlides, ...createSlides(portraitHeroContext, portraitHeroDescriptions)];
 const navigationLinks = [
   { href: '#home', label: 'Home' },
   { href: '#rooms', label: 'Rooms' },
@@ -446,13 +489,14 @@ function App() {
 
       <main id="home">
         <section className="barli-hero" aria-labelledby="hero-title">
-          <div className="barli-hero__carousel" aria-hidden="true">
+          <div className="barli-hero__carousel" role="group" aria-label="Photos of the hotel">
             {heroSlides.map((slide, index) => (
               <img
                 key={slide.image}
                 className={`barli-hero__slide ${index === activeHeroSlide ? 'is-active' : ''}`}
                 src={slide.image}
-                alt=""
+                alt={`${slide.alt} at The BARLI Hotel and Apartments, Jabi, Abuja`}
+                aria-hidden={index !== activeHeroSlide}
               />
             ))}
           </div>

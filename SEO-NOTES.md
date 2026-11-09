@@ -1,12 +1,14 @@
 # Static rendering and content
 
-Run `npm ci`, `npx playwright install chromium`, then `npm run build`. The build creates static HTML for all seven routes, including per-page canonical, Open Graph and Twitter metadata. Firebase serves these files with clean URLs. Unknown paths return the real 404 page instead of the homepage.
+Run `npm ci`, `npx playwright install chromium`, then `npm run build`. The build creates static HTML for all seven routes, including per-page canonical, Open Graph and Twitter metadata. Firebase serves these files with clean URLs. Unknown paths return the real 404 page instead of the homepage. `firebase.json` enables `cleanUrls` and removes the SPA catch-all rewrite so room pages and `sitemap.xml` are served as static files.
 
 Alternatively, use installed Chrome in PowerShell with `$env:PRERENDER_CHROME_CHANNEL='chrome'` before the build. Run `node scripts/verify-seo.cjs` after building to verify all routes with JavaScript disabled, metadata, sitemap coverage, room navigation and the booking link.
 
 Update room descriptions and FAQ entries in `src/siteContent.json`. The structured data currently uses the supplied ₦200,000–₦400,000 range, 2:00 pm check-in and 12:00 noon check-out. Confirm those values before publishing if they have changed. The shared preview image at `/og-image.jpg` is generated from the Executive Suite wide shot at 1200×630 by `scripts/brand.cjs`.
 
-The homepage title is “The BARLI Hotel and Apartments | Luxury Shortlet in Jabi, Abuja”. Its description mentions Jabi Lake Mall and VIP airport pickup. Each rendered page gets canonical, Open Graph and Twitter metadata. The homepage JSON-LD is a Hotel with address, phone, email, rate range, check-in/out, 24-hour opening specification, amenities, image and Instagram, TikTok and Facebook profile links. The HTML template includes a useful server/source fallback plus a `<noscript>` block with the hotel's name, address, phone, email and stay details.
+The homepage title is “The BARLI Hotel and Apartments | Luxury Shortlet in Jabi, Abuja”. Its description mentions Jabi Lake Mall and VIP airport pickup. Each rendered page gets canonical, Open Graph and Twitter metadata. The homepage JSON-LD is a Hotel with address, phone, email, rate range, check-in/out, 24-hour opening specification, amenities, approximate street coordinates, social profiles and the verified Booking.com listing. No direct Hotels.com property URL could be verified, so none is added to `sameAs`; add it when the hotel provides the listing link. Breakfast is described as included only when booked with the room, matching the terms.
+
+Hero photos now have descriptive alt text and semantic filenames such as `barli-landscape-01.jpeg` and `barli-portrait-01.jpeg` in place of WhatsApp export names. The current slide is exposed to assistive technology while inactive carousel images are hidden.
 
 `public/robots.txt`:
 

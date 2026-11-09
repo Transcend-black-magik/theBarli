@@ -35,17 +35,24 @@ const root = path.resolve(__dirname, '../build');
       assert(sitemap.includes(`<loc>${site.origin}${entry.path}</loc>`));
       await page.goto(base + entry.path);
       assert.equal(await page.title(), entry.title);
-      assert(await page.locator('h1').isVisible());
+      assert(await page.locator('main h1').first().isVisible());
       assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), site.origin + entry.path);
-      assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'), site.origin + '/social-hero.jpg');
+      assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'), site.origin + site.ogImage);
       assert.equal(await page.locator('meta[name="twitter:card"]').getAttribute('content'), 'summary_large_image');
       assert((await page.locator('main').innerText()).includes(site.address));
       if (entry.path === '/') {
         assert.equal(await page.locator('#rooms').evaluate(element => getComputedStyle(element).opacity), '1');
         const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
-        assert.equal(schema['@type'], 'LodgingBusiness');
+        assert.equal(schema['@type'], 'Hotel');
+        assert.equal(schema.name, site.name);
         assert.equal(schema.telephone, site.phone);
-        assert.equal(schema.address.streetAddress, '29 Asheik Jarma Street');
+        assert.equal(schema.address.streetAddress, '29 Asheik Jarma Street, Jabi');
+        assert.deepEqual(schema.sameAs, [...site.socialProfiles, ...site.bookingProfiles]);
+        assert.equal(schema.checkinTime, site.checkinTime);
+        assert.equal(schema.checkoutTime, site.checkoutTime);
+        for (const amenity of ['24-hour kitchen', 'Free Wi-Fi', 'Free secured parking']) {
+          assert(schema.amenityFeature.some(feature => feature.name === amenity));
+        }
         await page.screenshot({ path: 'build/seo-home-check.png', fullPage: true });
       }
       console.log(`Verified source and JavaScript-disabled page: ${entry.path}`);
@@ -56,7 +63,8 @@ const root = path.resolve(__dirname, '../build');
     const errors = [];
     live.on('pageerror', error => errors.push(error.message));
     await live.goto(base + '/', { waitUntil: 'networkidle' });
-    await live.getByRole('link', { name: 'Executive Suite', exact: true }).click();
+    await live.getByRole('button', { name: 'Open navigation menu' }).first().click();
+    await live.getByRole('link', { name: /Executive Suite/ }).first().click();
     await live.waitForURL('**/rooms/executive-suite', { waitUntil: 'domcontentloaded' });
     await live.getByRole('heading', { name: 'Executive Suite', exact: true }).waitFor();
     assert.equal(await live.locator('h1').textContent(), 'Executive Suite');
